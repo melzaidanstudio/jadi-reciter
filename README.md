@@ -289,9 +289,11 @@ karaoke-table.md + build.py.
 
 ## Yang dibutuhkan buat push ke GitHub
 
-Repo ini git init lokal saja, BELUM push. Sebelum push, butuh putusan Bos:
+Repo ini git init lokal saja, BELUM push. Target sudah diputuskan Bos:
+https://github.com/Melzaidanstudio/jadi-reciter (publik). Sebelum push,
+masih butuh: repo dibuat dulu di GitHub + cara auth (PAT atau SSH key).
 
-- Akun / organisasi GitHub tujuan (nama akun atau org).
-- Nama repo publik (disarankan: `jadi-reciter`).
-- Lisensi (BELUM ada file LICENSE di repo; butuh putusan Bos: MIT atau lain).
+- Akun / organisasi GitHub tujuan: Melzaidanstudio (diputuskan Bos).
+- Nama repo publik: `jadi-reciter` (diputuskan Bos).
+- Lisensi: MIT (file `LICENSE` di root repo, Copyright (c) 2026 Melzaidanstudio).
 - Visibilitas: publik (sesuai perintah Bos).
