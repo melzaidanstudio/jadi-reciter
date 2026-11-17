@@ -133,7 +133,8 @@ audio recitation (hak cipta qari), MP4 hasil render (dibangun lokal).
 
 Template ini pakai tiga efek visual yang sama di semua video, supaya semua
 surah kelihatan satu keluarga. Detail angka lengkap ada di
-`templates/SUTRADARA-TEMPLATE.md` §16.
+`TEKNIK-DOT-PARALLAX-BLUR.md` (spec VideoStory, md5 fb7fbfdd, 160 baris;
+ringkasnya di `templates/SUTRADARA-TEMPLATE.md` §16).
 
 **DOT (pola titik).** Grid titik putih halus di atas gambar (diameter 3 px,
 jarak 24 px, baris ganjil geser 12 px, opacity 6%). Tekstur cetak yang
