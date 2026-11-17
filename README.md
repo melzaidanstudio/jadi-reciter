@@ -172,7 +172,9 @@ butuh alat generate.
 
 Gaya konsisten contoh Quraish (pakai ini sebagai patokan buat surah lain):
 lukisan sinematik gelap emas, golden cinematic digital painting, tanpa teks,
-tanpa watermark, 9:16, 1152x2048.
+tanpa watermark, 9:16, 1152x2048. Panduan lengkap generate gambar (gaya,
+prompt per ayat, checklist) ada di `jadi-reciter-panduan-gambar.md`
+(panduan Desain, md5 968b9135, 226 baris).
 
 Panduan prompt per ayat (contoh Quraish, arti + isi gambar):
 
