@@ -1,0 +1,343 @@
+{
+ "verses": {
+  "Basmalah": {
+   "arab": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+   "translit": "Bismillāhir-raḥmānir-raḥīm.",
+   "transl": "Dengan nama Allah Yang Maha Pengasih, Maha Penyayang.",
+   "runs": [
+    [
+     "بِسْمِ",
+     ""
+    ],
+    [
+     "اللَّهِ",
+     ""
+    ],
+    [
+     "الرَّحْمَٰنِ",
+     ""
+    ],
+    [
+     "الرَّحِيمِ",
+     ""
+    ]
+   ]
+  },
+  "Ayat 1": {
+   "arab": "لِاِيْلٰفِ قُرَيْشٍۙ",
+   "translit": "Li'īlāfi quraisy(in).",
+   "transl": "Disebabkan oleh kebiasaan orang-orang Quraisy,",
+   "runs": [
+    [
+     "لِاِيْلٰفِ",
+     ""
+    ],
+    [
+     "قُرَيْشٍ",
+     "ۙ"
+    ]
+   ]
+  },
+  "Ayat 2": {
+   "arab": "اٖلٰفِهِمْ رِحْلَةَ الشِّتَاۤءِ وَالصَّيْفِۚ",
+   "translit": "´lāfihim riḥlatasy-syitā'i waṣ-ṣaif(i).",
+   "transl": "(yaitu) kebiasaan mereka bepergian pada musim dingin dan musim panas (sehingga mendapatkan banyak keuntungan),",
+   "runs": [
+    [
+     "اٖلٰفِهِمْ",
+     ""
+    ],
+    [
+     "رِحْلَةَ",
+     ""
+    ],
+    [
+     "الشِّتَاۤءِ",
+     ""
+    ],
+    [
+     "وَالصَّيْفِ",
+     "ۚ"
+    ]
+   ]
+  },
+  "Ayat 3": {
+   "arab": "فَلْيَعْبُدُوْا رَبَّ هٰذَا الْبَيْتِۙ",
+   "translit": "Falya‘budū rabba hāżal-bait(i).",
+   "transl": "maka hendaklah mereka menyembah Tuhan (pemilik) rumah ini (Ka‘bah)",
+   "runs": [
+    [
+     "فَلْيَعْبُدُوْا",
+     ""
+    ],
+    [
+     "رَبَّ",
+     ""
+    ],
+    [
+     "هٰذَا",
+     ""
+    ],
+    [
+     "الْبَيْتِ",
+     "ۙ"
+    ]
+   ]
+  },
+  "Ayat 4": {
+   "arab": "الَّذِيْٓ اَطْعَمَهُمْ مِّنْ جُوْعٍ ەۙ وَّاٰمَنَهُمْ مِّنْ خَوْفٍ ࣖ",
+   "translit": "Allażī aṭ‘amahum min jū‘(in), wa āmanahum min khauf(in).",
+   "transl": "yang telah memberi mereka makanan untuk menghilangkan lapar dan mengamankan mereka dari rasa takut.",
+   "runs": [
+    [
+     "الَّذِيْٓ",
+     ""
+    ],
+    [
+     "اَطْعَمَهُمْ",
+     ""
+    ],
+    [
+     "مِّنْ",
+     ""
+    ],
+    [
+     "جُوْعٍ",
+     ""
+    ],
+    [
+     "",
+     "ەۙ"
+    ],
+    [
+     "وَّاٰمَنَهُمْ",
+     ""
+    ],
+    [
+     "مِّنْ",
+     ""
+    ],
+    [
+     "خَوْفٍ",
+     ""
+    ],
+    [
+     "",
+     "ࣖ"
+    ]
+   ]
+  }
+ },
+ "words": [
+  {
+   "no": 1,
+   "verse": "Basmalah",
+   "word": "بِسْمِ",
+   "start": 0.31,
+   "end": 0.9,
+   "f_start": 7,
+   "t_frame": 0.2917,
+   "f_end": 21
+  },
+  {
+   "no": 2,
+   "verse": "Basmalah",
+   "word": "اللَّهِ",
+   "start": 0.9,
+   "end": 1.9,
+   "f_start": 21,
+   "t_frame": 0.875,
+   "f_end": 45
+  },
+  {
+   "no": 3,
+   "verse": "Basmalah",
+   "word": "الرَّحْمَٰنِ",
+   "start": 1.9,
+   "end": 3.16,
+   "f_start": 45,
+   "t_frame": 1.875,
+   "f_end": 75
+  },
+  {
+   "no": 4,
+   "verse": "Basmalah",
+   "word": "الرَّحِيمِ",
+   "start": 3.16,
+   "end": 6.16,
+   "f_start": 75,
+   "t_frame": 3.125,
+   "f_end": 147
+  },
+  {
+   "no": 5,
+   "verse": "Ayat 1",
+   "word": "لِاِيْلٰفِ",
+   "start": 7.56,
+   "end": 9.22,
+   "f_start": 181,
+   "t_frame": 7.5417,
+   "f_end": 221
+  },
+  {
+   "no": 6,
+   "verse": "Ayat 1",
+   "word": "قُرَيْشٍ",
+   "start": 9.22,
+   "end": 11.58,
+   "f_start": 221,
+   "t_frame": 9.2083,
+   "f_end": 277
+  },
+  {
+   "no": 7,
+   "verse": "Ayat 2",
+   "word": "اٖلٰفِهِمْ",
+   "start": 12.2,
+   "end": 14.06,
+   "f_start": 292,
+   "t_frame": 12.1667,
+   "f_end": 337
+  },
+  {
+   "no": 8,
+   "verse": "Ayat 2",
+   "word": "رِحْلَةَ",
+   "start": 14.06,
+   "end": 15.08,
+   "f_start": 337,
+   "t_frame": 14.0417,
+   "f_end": 361
+  },
+  {
+   "no": 9,
+   "verse": "Ayat 2",
+   "word": "الشِّتَاۤءِ",
+   "start": 15.08,
+   "end": 17.96,
+   "f_start": 361,
+   "t_frame": 15.0417,
+   "f_end": 431
+  },
+  {
+   "no": 10,
+   "verse": "Ayat 2",
+   "word": "وَالصَّيْفِ",
+   "start": 17.96,
+   "end": 21.46,
+   "f_start": 431,
+   "t_frame": 17.9583,
+   "f_end": 515
+  },
+  {
+   "no": 11,
+   "verse": "Ayat 3",
+   "word": "فَلْيَعْبُدُوْا",
+   "start": 22.0,
+   "end": 23.7,
+   "f_start": 528,
+   "t_frame": 22.0,
+   "f_end": 568
+  },
+  {
+   "no": 12,
+   "verse": "Ayat 3",
+   "word": "رَبَّ",
+   "start": 23.7,
+   "end": 24.68,
+   "f_start": 568,
+   "t_frame": 23.6667,
+   "f_end": 592
+  },
+  {
+   "no": 13,
+   "verse": "Ayat 3",
+   "word": "هٰذَا",
+   "start": 24.68,
+   "end": 25.64,
+   "f_start": 592,
+   "t_frame": 24.666666666666668,
+   "f_end": 615
+  },
+  {
+   "no": 14,
+   "verse": "Ayat 3",
+   "word": "الْبَيْتِ",
+   "start": 25.64,
+   "end": 28.44,
+   "f_start": 615,
+   "t_frame": 25.625,
+   "f_end": 682
+  },
+  {
+   "no": 15,
+   "verse": "Ayat 4",
+   "word": "الَّذِيْٓ",
+   "start": 29.44,
+   "end": 30.46,
+   "f_start": 706,
+   "t_frame": 29.4167,
+   "f_end": 731
+  },
+  {
+   "no": 16,
+   "verse": "Ayat 4",
+   "word": "اَطْعَمَهُمْ",
+   "start": 30.46,
+   "end": 33.84,
+   "f_start": 731,
+   "t_frame": 30.4583,
+   "f_end": 812
+  },
+  {
+   "no": 17,
+   "verse": "Ayat 4",
+   "word": "مِّنْ",
+   "start": 33.84,
+   "end": 35.58,
+   "f_start": 812,
+   "t_frame": 33.8333,
+   "f_end": 853
+  },
+  {
+   "no": 18,
+   "verse": "Ayat 4",
+   "word": "جُوْعٍ",
+   "start": 35.58,
+   "end": 38.48,
+   "f_start": 853,
+   "t_frame": 35.5417,
+   "f_end": 923
+  },
+  {
+   "no": 19,
+   "verse": "Ayat 4",
+   "word": "وَّاٰمَنَهُمْ",
+   "start": 40.36,
+   "end": 41.76,
+   "f_start": 968,
+   "t_frame": 40.3333,
+   "f_end": 1002
+  },
+  {
+   "no": 20,
+   "verse": "Ayat 4",
+   "word": "مِّنْ",
+   "start": 41.76,
+   "end": 43.16,
+   "f_start": 1002,
+   "t_frame": 41.75,
+   "f_end": 1035
+  },
+  {
+   "no": 21,
+   "verse": "Ayat 4",
+   "word": "خَوْفٍ",
+   "start": 43.16,
+   "end": 45.19,
+   "f_start": 1035,
+   "t_frame": 43.125,
+   "f_end": 1084
+  }
+ ]
+}

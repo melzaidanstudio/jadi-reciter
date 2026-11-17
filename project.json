@@ -1,0 +1,65 @@
+{
+  "fps": 24,
+  "scenes": [
+    "scenes/01-basmalah.html",
+    {
+      "file": "scenes/02-ayat1.html",
+      "transition": {
+        "type": "LinearBlur",
+        "duration": 0.5,
+        "ease": "inOutCubic",
+        "params": {
+          "intensity": 0.1
+        }
+      }
+    },
+    {
+      "file": "scenes/03-ayat2.html",
+      "transition": {
+        "type": "directionalwarp",
+        "duration": 0.5,
+        "ease": "inOutCubic",
+        "params": {
+          "direction": [
+            -1,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "file": "scenes/04-ayat3.html",
+      "transition": {
+        "type": "fadecolor",
+        "duration": 0.5,
+        "ease": "inOutCubic",
+        "params": {
+          "color": [
+            0,
+            0,
+            0
+          ],
+          "colorPhase": 0.4
+        }
+      }
+    },
+    {
+      "file": "scenes/05-ayat4.html",
+      "transition": {
+        "type": "LinearBlur",
+        "duration": 0.5,
+        "ease": "inOutCubic",
+        "params": {
+          "intensity": 0.1
+        }
+      }
+    }
+  ],
+  "audio": [
+    {
+      "file": "audio/audio.wav",
+      "start": 0,
+      "volume": 1.0
+    }
+  ]
+}

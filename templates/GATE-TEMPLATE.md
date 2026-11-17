@@ -1,0 +1,65 @@
+# GATE TEMPLATE: Murrotal QS. [NAMA SURAH] ([NOMOR]) v[1], motlab + motion-cut
+# Sutradara: [NAMA], [TANGGAL] WIB
+# SUTRADARA: SUTRADARA-[SURAH]-V[1].md, md5 [MD5], [N] baris, 0 em dash.
+# Perintah [BOS/CEO] via [JALUR]. [Revisi dari v1 / video baru], engine motlab.
+# Verdict: [GATE OK / BELUM OK + blocker]. Build + render oleh Builder sesudah preview sheet acc.
+# CARA PAKAI: isi semua [PLACEHOLDER] + centang [x] kalau sudah diverifikasi dari disk.
+# Satu item bertanda [ ] cuma dicek di preview, bukan blocker GATE.
+
+## Cek input (semua diverifikasi sutradara dari disk)
+- [ ] [N] gambar sama dengan [SUMBER]: [DAFTAR FILE + UKURAN BYTE]. Ada di [FOLDER]/.
+- [ ] Audio utuh: audio.wav md5 [MD5], [DURASI] dtk, [NAMA QARI]. Dipakai utuh, tanpa potong, tanpa dipercepat.
+- [ ] Teks verbatim: teks-[SURAH].md md5 [MD5]. Arab + transliterasi + terjemahan. Build ambil programmatic, jangan retype.
+- [ ] Timing ayat: timing-ayat.md md5 [MD5]. [DAFTAR RENTANG]. Jeda napas [AYAT] [RENTANG] di tengah ayat.
+- [ ] transcript.json md5 [MD5], [N] segmen, [N] token kata Whisper. Peta karaoke [N] kata dibangun dari token ini (§5 SUTRADARA).
+
+## Cek peta karaoke [N] kata (WAJIB, terverifikasi dari disk)
+- [ ] [N] kata tampil ([PER AYAT]). Tidak ada tumpang tindih, semua durasi positif.
+- [ ] Gabung token Whisper: [DAFTAR GABUNGAN]. Batas gabung bersih (token bersambung tanpa jeda).
+- [ ] Koreksi batas segmen dari timing-ayat.md: kata 1 start [BARU] (bukan [LAMA]), kata [TERAKHIR] end [BARU] (bukan [LAMA]).
+- [ ] Snap frame 24fps: kata aktif di frame floor(start x 24), highlight ganti paling lambat 41,67 ms sebelum awal kata, tidak pernah telat.
+- [ ] Jeda napas [AYAT] ([RENTANG]) kosong: tidak ada kata aktif di jeda.
+- [ ] Tanda akhir ayat ([DAFTAR]) bukan kata, tetap tampil tapi selalu emas, tidak pernah putih.
+- [ ] Transliterasi + terjemahan tidak karaoke, tetap statis.
+- [ ] Batas [AYAT] [KATA A] / [KATA B] TERKOREKSI ke [BARU] (f [N]), terbukti akustik ([BUKTI]) + stills preview. Durasi kata [A] [X] dtk, kata [B] [X] dtk, seimbang. Highlight ganti frame [N], tidak pernah telat.
+
+## Cek shadow box (ikut referensi Ad-Dhuha)
+- [ ] Referensi dibaca langsung: [PATH], [UKURAN] byte, QS. [SURAH] Ayat [N]. Pill atas, kotak rounded hitam transparan + border tipis, Arab emas + kata aktif putih, terjemahan putih di dalam kotak, tanpa footer.
+- [ ] Spesifikasi kotak di SUTRADARA §6: x 60-1020, isi rgba(0,0,0,0.55), border rgba(255,255,255,0.35) 2 px, radius 24 px, padding 36 px vertikal + 40 px horizontal, lebar dalam 880 px, ukuran ikut tinggi teks tiap ayat, jangan tutupi pill.
+- [ ] BUG 3 (f_end): f_end = floor(end kata sendiri x 24), BUKAN f_start kata berikut. Kata [N] f_end [N] (bukan [N]). Jeda napas [RENTANG] tidak ada kata aktif, semua emas (terbukti stills video [WAKTU] + karaoke-data.json, semua f_start/f_end dicek sutradara, tidak ada tumpang tindih).
+- [ ] BUG 4 (pill ikut fade teks): pill opacity sama kayak blok teks (fade 0,2 dtk), hilang di ekor + jeda antar ayat. Terbukti stills video [WAKTU]: pill HILANG, teks HILANG, cuma gambar.
+- [ ] Warna teks di kotak: Arab emas #E8C766 + kata aktif putih #FFFFFF, transliterasi putih pudar rgba(255,255,255,0.85), terjemahan putih #FFFFFF.
+- [ ] Arab [AYAT] [N] baris, terjemahan maksimal 2 baris, [AYAT LAIN] Arab 1 baris.
+
+## Cek tanpa footer
+- [ ] SUTRADARA tulis jelas: HAPUS footer "Qur'an Kemenag", tidak ada di frame mana pun. GATE cek preview: cari footer di semua stills, harus 0.
+
+## Cek adegan + transisi + audio
+- [ ] [N] adegan, satu halaman motlab per adegan, Ken Burns zoom-in (1,00x ke 1.3x, linear) + pan 20 px per adegan.
+- [ ] TOTAL adegan: [X] + [X] + ... = [TOTAL] dtk, kurang [N] transisi x 0,5 dtk = [DURASI] dtk. Cocok ([DURASI AUDIO] dtk).
+- [ ] Transisi bernama 0,5 dtk tiap pindah ayat: [DAFTAR D1-DN + JENIS]. Di tengah jeda antar ayat. Ditulis di project.json adegan yang dimasuki.
+- [ ] Partikel + cahaya per adegan: [DAFTAR PER ADEGAN].
+- [ ] Audio: satu file audio.wav, start 0, volume 1.0. Tanpa BGM, tanpa musik, tanpa SFX.
+- [ ] Ekor: teks hilang [RENTANG], gambar tetap, fade hitam 0,5 dtk terakhir. Tanpa end card, tanpa CTA.
+
+## Cek DOT + PARALLAX + BLUR (SUTRADARA §16)
+- [ ] DOT: titik putih 3 px, jarak 24 px, stagger 12 px, opacity 0.06, ~3.600 titik, ikut lapis gambar. Tidak ada titik di teks.
+- [ ] PARALLAX: pan gambar ~20 px per adegan ke arah tabel, zoom 1.3 semua adegan, partikel drift ~30 px berlawanan, teks drift ±15 px sinusoidal kembali 0 di akhir adegan, tidak ada elemen statis.
+- [ ] Zoom 1.3 framing/crop: cek per adegan di preview, subjek utama masih di frame di zoom maks ([DAFTAR SUBJEK PER ADEGAN]). Kalau terpotong, laporkan ke sutradara, jangan ubah nilai 1.3.
+- [ ] BLUR latar: radius 8 px, cuma di zona shadow box, pre-render sekali per adegan. Tepi di zona teks lebih halus, tepi di luar zona tetap tajam, stroke Arab tajam.
+- [ ] BLUR transisi: D1 + D4 blend blur, D2 warp + motion blur, D3 dip hitam, 0 hard cut di luar transisi.
+
+## Cek format + engine
+- [ ] project.json fps 24, halaman 1080x1920, render --scale 0.6667 jadi 720x1280. Jumlah frame: [DURASI] x 24 = [HITUNG]. Frame render [CEIL] (frame 0-[CEIL-1]). Angka pasti dari render, tulis di RENDER.md.
+- [ ] Proyek BARU [PATH PROYEK]/, jangan timpa proyek lama.
+- [ ] Chrome wrapper --no-sandbox, TMPDIR di /home (~/.motlab-tmp). motlab terpasang, doctor OK.
+- [ ] RENDER [DIPERINTAHKAN BOS SECARA EKSPLISIT / TUNGGU ACC BOS].
+- [ ] Perbandingan [DAFTAR VERSI]: Builder WAJIB catat WAKTU build + render penuh versi ini pakai angka di RENDER.md (jam mulai/selesai + total menit build, render, total). Seksi CATAT WAKTU §15 di SUTRADARA sediakan tempatnya. Laporan akhir versi ini HARUS bawa angka itu.
+
+## Rencana preview (aturan motion-cut, preview dulu sebelum render penuh)
+- [ ] Builder buat stills + contact sheet, kirim ke sutradara SEBELUM render penuh. Sutradara acc dulu baru render penuh.
+- Waktu stills (waktu video, dtk): [DAFTAR 12 TITIK, ikut SUTRADARA §11].
+- Yang dicek sutradara di preview: kata aktif putih di frame yang benar, shadow box rapi + tidak tutupi pill, Arab [N] baris tidak meluber, terjemahan maksimal 2 baris, tanpa footer di frame mana pun, gambar per ayat benar, Ken Burns + pan jalan, partikel + cahaya ada di tiap adegan, transisi bernama terlihat, batas [AYAT] verifikasi telinga, DOT + blur latar + framing zoom 1.3.
+
+## Blocker: [N]
+- [DAFTAR BLOCKER, atau "0" kalau semua input ada + terverifikasi.]

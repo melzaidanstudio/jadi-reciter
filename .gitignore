@@ -1,0 +1,12 @@
+# Jadi-reciter: yang tidak masuk repo.
+# Audio recitation (hak cipta qari), hasil render, dan file kerja lokal.
+# Perhatian git: "audio/" (direktori) tidak bisa dinegasi dari dalam, jadi
+# yang di-ignore adalah isi direktori (audio/*), lalu README dikecualikan.
+audio/*
+!audio/README.md
+out/
+.tmp/
+chkmp4*
+scoring-frames*
+scdet.log
+*.mp4
