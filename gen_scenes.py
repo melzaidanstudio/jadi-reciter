@@ -79,7 +79,7 @@ SCENES = [
      "img": "ayat4.webp", "total": 19.03, "start": 28.69,
      "text_start": 29.44, "text_end": 45.19, "kb_end": 1.3, "kind": "oasis", "pan": [0, -1]},
 ]
-# Gambar default (Bos 2026-11-18 ~00:52 WIB): kalau gambar satu ayat belum ada di assets/,
+# Gambar default (Bos 2026-11-18 ~00:52 WIB): kalau gambar satu ayat belum ada di assets/images/,
 # adegan itu pakai gambar ini (Ka'bah, generik) + peringatan jelas di log. Build TETAP JALAN,
 # video tidak kosong. Ini MENGGANTIKAN aturan berhenti keras sebelumnya.
 DEFAULT_IMG = "default.webp"
@@ -130,7 +130,7 @@ JS_TEMPLATE = r"""<!doctype html><html><head><meta charset="utf-8"><title>__TITL
 const W = 1080, H = 1920, TOTAL = __TOTAL__, SCENE_START = __START__;
 const GOLD = '#E8C766', WHITE = '#FFFFFF';
 const PILL = __PILL__;
-const IMG_SRC = '../assets/__IMG__';
+const IMG_SRC = '../assets/images/__IMG__';
 const KIND = '__KIND__';
 const PAN = __PAN__;  // arah pan gambar [x, y], ikut spec §2.3 (cahaya / arah gerak subjek)
 const TEXT_START = __TEXT_START__, TEXT_END = __TEXT_END__;   // waktu video
@@ -484,11 +484,11 @@ def main():
         v = DATA["verses"][verse]
         lines = verse_runs(verse)
         # Gambar default (Bos 2026-11-18 ~00:52 WIB): kalau gambar ayat ini belum ada
-        # di assets/, adegan pakai default.webp + peringatan jelas di log. Build
+        # di assets/images/, adegan pakai default.webp + peringatan jelas di log. Build
         # TETAP JALAN, video tidak kosong. Jangan render video tanpa gambar.
         img = sc["img"]
-        if not (PROJ / "assets" / img).exists():
-            print(f"PERINGATAN: gambar {verse} tidak ada (assets/{img}), pakai gambar default {DEFAULT_IMG}")
+        if not (PROJ / "assets" / "images" / img).exists():
+            print(f"PERINGATAN: gambar {verse} tidak ada (assets/images/{img}), pakai gambar default {DEFAULT_IMG}")
             img = DEFAULT_IMG
         fade = None
         if verse == "Ayat 4":

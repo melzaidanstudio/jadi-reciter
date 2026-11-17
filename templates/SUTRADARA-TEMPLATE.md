@@ -22,7 +22,8 @@
 - Transisi antar adegan pakai shader gl-transitions di project.json (lihat §8). Dua adegan tumpang tindih selama durasi transisi, video jadi lebih pendek sejumlah itu, jadi TOTAL tiap adegan dihitung dengan overlap (§8).
 
 ## 2. Input, semua diverifikasi sutradara dari disk, jangan diubah
-- [JUMLAH] gambar [FOLDER GAMBAR]/ (1152x2048, 9:16, [GAYA], tanpa teks), disalin ke assets/ proyek (copy, jangan pindah): [DAFTAR NAMA FILE + UKURAN BYTE + DESKRIPSI PER GAMBAR].
+- [JUMLAH] gambar [FOLDER GAMBAR]/ (1152x2048, 9:16, [GAYA], tanpa teks), disalin ke assets/images/ proyek (copy, jangan pindah): [DAFTAR NAMA FILE + UKURAN BYTE + DESKRIPSI PER GAMBAR].
+- Gambar = file biasa di assets/images/. Langkah generate DIPISAH dari build + render: generate di tempat lain atau upload sendiri, taruh filenya di assets/images/, baru build. Kalau gambar satu ayat belum ada saat gen_scenes.py jalan, adegan itu pakai assets/images/default.webp (Ka'bah, generik) + log mencetak PERINGATAN yang menyebut ayatnya, build TETAP JALAN, video tidak kosong. Ini koreksi Bos (ganti aturan berhenti keras sebelumnya); jangan hapus default.webp.
 - Audio [FOLDER]/audio.wav, md5 [MD5], [UKURAN] byte, [DURASI] dtk, [SAMPLE RATE] stereo, [NAMA QARI]. Dipakai UTUH, tanpa potong, tanpa dipercepat, tanpa BGM. Disalin ke audio/ proyek.
 - Teks verbatim Kemenag [FOLDER]/teks-[SURAH].md, md5 [MD5]. Arab + transliterasi + terjemahan. Teks Arab DIAMBIL PROGRAMMATIC dari file ini saat build (script copy, jangan retype, jangan ubah). Transliterasi verbatim termasuk tanda khusus, jangan diedit. Terjemahan versi situs Kemenag saat ini, jangan ganti ke versi lama.
 - Timing ayat [FOLDER]/timing-ayat.md, md5 [MD5]: [DAFTAR RENTANG PER AYAT]. Jeda antar ayat: [DAFTAR]. [Jeda napas kalau ada, di TENGAH ayat, bukan batas ayat.] Hening awal [X]-[Y] dtk, hening ekor [X]-[Y] dtk.
@@ -71,7 +72,7 @@
 - Teks muncul per ayat UTUH (bukan kata per kata munculnya, cuma WARNA kata yang berubah): teks ayat muncul bersama dissolve di awal ayat, tetap selama ayat, hilang di akhir ayat. Di ekor teks hilang, gambar tetap, fade hitam 0,5 dtk terakhir (§8 adegan terakhir).
 
 ## 7. Adegan ([JUMLAH] adegan, satu halaman motlab per adegan)
-- Semua adegan: gambar latar (webp di assets/), Ken Burns zoom-in (mulai 1,00x, selesai 1.3x, linear), pan 20 px (arah per adegan, §16), partikel + cahaya digambar di atas gambar (kode canvas, bukan gambar baru), shadow box + teks (§6), pill (§6), DOT + blur latar (§16).
+- Semua adegan: gambar latar (webp di assets/images/), Ken Burns zoom-in (mulai 1,00x, selesai 1.3x, linear), pan 20 px (arah per adegan, §16), partikel + cahaya digambar di atas gambar (kode canvas, bukan gambar baru), shadow box + teks (§6), pill (§6), DOT + blur latar (§16).
 - ADEGAN 1 [NAMA] (scenes/[FILE]): gambar [FILE] ([DESKRIPSI]). TOTAL [X] dtk (video [A]-[B]). Teks [AYAT] [X]-[Y] (lokal t [X]-[Y]). [Hening awal kalau ada: gambar saja, tanpa teks.] Cahaya: [DESKRIPSI]. Partikel: [JENIS]. Transisi keluar: [JENIS] (§8).
 - ADEGAN 2 [NAMA]: [SAMA, satu blok per adegan, sampai adegan terakhir.]
 - Cek jumlah TOTAL: [X] + [X] + ... = [TOTAL] dtk. Kurang [N] transisi x 0,5 dtk = [OVERLAP] dtk overlap = [DURASI VIDEO] dtk. Cocok ([DURASI AUDIO] dtk).
@@ -90,7 +91,7 @@
 - Target loudness: ukur volumedetect MP4 hasil render, tulis di RENDER.md. Contoh Quraish: -15,0 dB mean / -0,2 dB max. v[1] harus dekat angka itu (audio sama, jadi harus sama; kalau beda jauh, ada yang salah di mix).
 
 ## 10. Engine motlab, perintah build + render
-- Folder proyek: [PATH PROYEK]/ (baru). Struktur: project.json, scenes/ ([N] halaman), assets/ ([N] webp + fonts Noto Naskh Arabic + Noto Sans), audio/ (audio.wav), out/ (hasil render).
+- Folder proyek: [PATH PROYEK]/ (baru). Struktur: project.json, scenes/ ([N] halaman), assets/images/ ([N] webp + default.webp), assets/fonts/ (Noto Naskh Arabic + Noto Sans), audio/ (audio.wav), out/ (hasil render).
 - project.json: { "fps": 24, "scenes": [ ... ], "audio": [ { "file": "audio/audio.wav", "start": 0, "volume": 1.0 } ] }.
 - Halaman adegan dari template 2D motlab: canvas 1080x1920, renderAt(t), TOTAL, ready. Gambar latar digambar dengan Ken Burns (scale 1,00 ke 1.3, linear) + pan 20 px (§16). Partikel + cahaya digambar di atas gambar. Shadow box + teks digambar di atas partikel (teks paling atas, kecuali pill). Semua gerak deterministik (hanya fungsi t + hash, tanpa Math.random), supaya stills dan render sama.
 - RENDER [DIPERINTAHKAN BOS SECARA EKSPLISIT DI CHAT / TUNGGU ACC BOS]. Perintah render: TMPDIR=$PWD/.tmp motlab render . --scale 0.6667 (dari folder proyek). Output: out/[NAMA].mp4 (720x1280 24fps). Catat waktu build + render (§12).

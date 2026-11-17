@@ -116,9 +116,10 @@ teks-quraish.md            teks Kemenag verbatim (Arab + transliterasi + terjema
 timing-ayat.md             rentang tiap ayat + jeda napas Ayat 4
 transcript.json            token Whisper (6 segmen, 23 token; peta karaoke digabung dari sini)
 scenes/                    5 halaman motlab (01-basmalah .. 05-ayat4)
-assets/                    5 gambar webp (bismillah + ayat1-4) + fonts/ (Noto Naskh + Noto Sans)
-assets/default.webp        gambar default (Ka'bah, generik). Dipakai kalau gambar satu
-                           ayat belum ada; build tetap jalan + peringatan di log.
+assets/images/             5 gambar webp (bismillah + ayat1-4) + default.webp (Ka'bah,
+                           generik). Dipakai kalau gambar satu ayat belum ada; build
+                           tetap jalan + peringatan di log.
+assets/fonts/              Noto Naskh + Noto Sans (sudah di-vendor)
 audio/                     KOSONG di repo. Isi sendiri, lihat audio/README.md.
 templates/                 SUTRADARA-TEMPLATE.md, GATE-TEMPLATE.md, RENDER-TEMPLATE.md,
                            BUILD-TIMES-TEMPLATE.md (isi buat surah baru)
@@ -162,8 +163,9 @@ karaoke, dan tidak mengaburkan gambar utama.
 
 Tiap gambar ayat di-generate AI, mengikuti cerita/arti ayat itu, gaya
 konsisten, tanpa teks, 1152x2048 (9:16). Langkah generate DIPISAH dari build
-+ render: gambar cuma file di `assets/`. Kamu generate di tempat lain atau
-upload sendiri, lalu taruh filenya di `assets/` dengan nama yang dipakai
++ render: gambar cuma file di `assets/images/`. Kamu generate di tempat
+lain atau upload sendiri, lalu taruh filenya di `assets/images/` dengan
+nama yang dipakai
 `gen_scenes.py` (bismillah.webp, ayat1.webp, ...). Build + render tidak
 butuh alat generate.
 
@@ -188,7 +190,7 @@ Panduan prompt per ayat (contoh Quraish, arti + isi gambar):
   Dia yang memberi makan dari lapar dan memberi aman dari takut.
 
 Kalau satu gambar ayat belum ada saat `gen_scenes.py` jalan, adegan itu
-pakai `assets/default.webp` (Ka'bah, generik) dan log mencetak PERINGATAN
+pakai `assets/images/default.webp` (Ka'bah, generik) dan log mencetak PERINGATAN
 yang menyebut ayatnya. Build TETAP JALAN, video tidak kosong. Ganti gambar
 default itu dengan gambarmu sendiri kalau mau, tapi jangan hapus filenya.
 
@@ -274,7 +276,7 @@ karaoke-table.md + build.py.
 2. Ganti file contoh dengan file surah baru (nama file boleh sama, isi
    baru): `teks-quraish.md` (ganti nama kalau mau, ubah juga di build.py),
    `timing-ayat.md`, `transcript.json`, `karaoke-table.md` (tabel §5
-   terverifikasi surah baru), gambar di `assets/` (satu per ayat +
+   terverifikasi surah baru), gambar di `assets/images/` (satu per ayat +
    Basmalah kalau ada di audio).
 3. Isi `audio/audio.wav` dengan rekaman surah baru (lihat audio/README.md).
 4. Jalankan quickstart langkah 2-6. Catat waktu di RENDER.md +
