@@ -15,7 +15,7 @@
 ## 1. Format + engine
 - Halaman motlab 1080x1920 (9:16), project.json "fps": 24, render --scale 0.6667 jadi output 720x1280.
 - Durasi [DURASI AUDIO] dtk (audio utuh). Jumlah frame: [DURASI] x 24 = [HITUNG]. Frame render [CEIL] (frame 0-[CEIL-1]), ikut aturan v1 (frame f dirender selama f/fps < durasi). Angka pasti dari render, Builder tulis di RENDER.md.
-- [JUMLAH] adegan (satu per ayat: [DAFTAR AYAT]), satu halaman motlab per adegan, di scenes/.
+- [JUMLAH] adegan (satu per ayat: [DAFTAR AYAT]; ayat panjang dipotong jadi 2 atau 3 adegan, lihat §18), satu halaman motlab per adegan, di scenes/.
 - project.json: fps 24, scenes urut [DAFTAR FILE], audio audio.wav start 0 volume 1.0 (lihat §11).
 - Chrome lewat wrapper --no-sandbox di ~/.local/bin/google-chrome. TMPDIR di /home (~/.motlab-tmp). motlab sudah terpasang, doctor OK.
 - Halaman ikut page contract motlab: canvas id "c" 1080x1920 x scale, window.renderAt(t), window.TOTAL, window.ready. Tidak ada Date.now, tidak ada Math.random, tidak ada fetch jaringan. Font + gambar lokal di folder proyek.
@@ -73,7 +73,7 @@
 - Teks muncul per ayat UTUH (bukan kata per kata munculnya, cuma WARNA kata yang berubah): teks ayat muncul bersama dissolve di awal ayat, tetap selama ayat, hilang di akhir ayat. Di ekor teks hilang, gambar tetap, fade hitam 0,5 dtk terakhir (§8 adegan terakhir).
 
 ## 7. Adegan ([JUMLAH] adegan, satu halaman motlab per adegan)
-- Semua adegan: gambar latar (webp di assets/images/), Ken Burns zoom-in (mulai 1,00x, selesai 1.3x, linear), pan 20 px (arah per adegan, §16), partikel + cahaya digambar di atas gambar (kode canvas, bukan gambar baru), shadow box + teks (§6), pill (§6), DOT (§16).
+- Semua adegan: gambar latar (webp di assets/images/), Ken Burns zoom-in (mulai 1,00x, selesai 1.3x, linear), pan 20 px (arah per adegan, §16), partikel + cahaya digambar di atas gambar (kode canvas, bukan gambar baru), shadow box + teks (§6), pill (§6), DOT (§16). Ayat panjang yang dipotong (§18) jadi 2 atau 3 adegan, satu adegan per potongan, masing-masing gambar sendiri. Nama file potongan: scenes/[NOMOR]-ayat[N][a/b/c].html (contoh ayat 4 dipotong 2: 05-ayat4a.html + 05-ayat4b.html).
 - ADEGAN 1 [NAMA] (scenes/[FILE]): gambar [FILE] ([DESKRIPSI]). TOTAL [X] dtk (video [A]-[B]). Teks [AYAT] [X]-[Y] (lokal t [X]-[Y]). [Hening awal kalau ada: gambar saja, tanpa teks.] Cahaya: [DESKRIPSI]. Partikel: [JENIS]. Transisi keluar: [JENIS] (§8).
 - ADEGAN 2 [NAMA]: [SAMA, satu blok per adegan, sampai adegan terakhir.]
 - Cek jumlah TOTAL: [X] + [X] + ... = [TOTAL] dtk. Kurang [N] transisi x 0,5 dtk = [OVERLAP] dtk overlap = [DURASI VIDEO] dtk. Cocok ([DURASI AUDIO] dtk).
@@ -85,6 +85,7 @@
   - D3 [A] ke [B] (video [X]-[Y]): dip (fadecolor, color [0,0,0] hitam, colorPhase 0.4). Lompat waktu + babak baru.
   - D4 [A] ke [B] (video [X]-[Y]): fade (cross-dissolve). Alir mengalir.
 - Di project.json, transisi ditulis di adegan yang DIMASUKI (bukan yang ditinggalkan), format motlab: { "file": "scenes/02-ayat1.html", "transition": { "type": "fade", "duration": 0.5, "ease": "inOutCubic" } }. Nama type tidak case-sensitive.
+- Potongan ayat (§18): transisi antar potongan SELALU dissolve (fade, cross-dissolve) 0,5 dtk, ease inOutCubic, sama kayak D1/D4. JANGAN pakai directionalwarp atau fadecolor antar potongan (itu buat pindah ayat yang lompat tempat/waktu/babak). Transisi potongan ditulis di project.json di adegan yang dimasuki, sama kayak transisi ayat.
 - Perhatian motlab: dua adegan tumpang tindih selama transisi, jadi adegan yang ditinggalkan harus punya isi sampai akhir TOTAL-nya, dan adegan yang dimasuki sudah jalan sejak awal TOTAL-nya. Audio start di project.json pakai waktu video jadi (sesudah overlap), jangan geser audio karena transisi (audio cuma satu file, start 0).
 
 ## 9. Audio
@@ -202,3 +203,12 @@
   jenis partikel per adegan dipilih dari gambar yang sebenarnya (arah
   sumber cahaya ATAU arah gerak subjek), bukan dari cerita ayat.
 - Satu video cuma pakai satu jalur. Jangan campur A dan B dalam satu video.
+
+## 18. POTONG AYAT PANJANG JADI 2 ATAU 3 BAGIAN (perintah Dewa 2026-11-18)
+- Ayat yang PANJANG dipotong jadi 2 atau 3 bagian, biar tidak monoton di satu gambar. Ayat panjang = ayat yang kalau ditampilkan utuh di satu adegan, satu gambar diam terlalu lama. Sutradara yang putuskan ayat mana yang dipotong, dicatat di §7 (satu adegan per potongan). Maksimal 3 potongan per ayat.
+- Potong di BATAS FRASA YANG NATURAL, BUKAN tengah kata. Titik potong yang boleh: di tanda berhenti (waqf) ayat, di batas antar klausa, atau di jeda napas di tengah ayat (kalau ada). JANGAN potong di tengah frasa, JANGAN potong di tengah kata. Tulis titik potongnya di §7 (kata terakhir potongan + kata pertama potongan berikut).
+- Urutan karaoke TETAP NYAMBUNG antar potongan. Peta karaoke §5 tetap SATU urutan utuh: nomor kata lanjut terus antar potongan (kata terakhir potongan 1 = kata n, kata pertama potongan 2 = kata n+1), f_start/f_end tidak berubah. Tidak ada kata yang hilang, tidak ada kata yang diulang, tidak ada tumpang tindih.
+- Tiap potongan dapat GAMBAR SENDIRI. Jalur A: gambar potongan mengikuti cerita bagian ayat itu. Jalur B: gambar potongan mengikuti tema (§17), satu gambar per potongan, tetap satu tema buat semua potongan. Gambar tiap potongan harus beda (jangan pakai gambar yang sama dua kali).
+- Teks tiap potongan: adegan potongan cuma menampilkan kata-kata potongan itu (Arab + transliterasi + terjemahan bagian itu saja). Rentang teks potongan = dari start kata pertama sampai end kata terakhir potongan itu, fade 0,2 dtk di awal + akhir (ikut §6). Pill potongan: "QS. [SURAH] ([NOMOR]) - Ayat n / [JUMLAH] (bagian k / K)".
+- Transisi antar potongan: SELALU dissolve (fade) 0,5 dtk (§8). Hitungan TOTAL ikut §7/§8: jumlah TOTAL semua adegan (termasuk potongan) kurang semua transisi (antar ayat + antar potongan) x 0,5 dtk = durasi video. Audio tetap satu file, start 0, tidak digeser karena potongan.
+- Penamaan file potongan: scenes/[NOMOR]-ayat[N][a/b/c].html (contoh ayat 4 dipotong 2: 05-ayat4a.html + 05-ayat4b.html). Urutan scenes di project.json ikut urutan potongan.

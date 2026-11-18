@@ -211,6 +211,17 @@ Panduan prompt per ayat (contoh Quraish, arti + isi gambar):
   saat senja, kurma, sungai, pohon buah, kota gurun di belakang. Arti:
   Dia yang memberi makan dari lapar dan memberi aman dari takut.
 
+### Ayat panjang dipotong jadi 2 atau 3 bagian
+
+Ayat yang panjang dipotong jadi 2 atau 3 bagian, biar tidak monoton di satu
+gambar (perintah Dewa 2026-11-18, detail di templates/SUTRADARA-TEMPLATE.md
+§18). Potong di batas frasa yang natural, BUKAN tengah kata. Urutan karaoke
+tetap nyambung antar potongan (peta karaoke satu urutan utuh, nomor kata
+lanjut terus). Tiap potongan dapat gambar sendiri (jalur A: ikut cerita
+bagian ayat itu; jalur B: ikut tema). Transisi antar potongan selalu
+dissolve 0,5 dtk. Tiap potongan jadi satu adegan sendiri di scenes/
+(contoh: 05-ayat4a.html + 05-ayat4b.html).
+
 Kalau satu gambar ayat belum ada saat `gen_scenes.py` jalan, adegan itu
 pakai `assets/images/default.webp` (Ka'bah, generik) dan log mencetak PERINGATAN
 yang menyebut ayatnya. Build TETAP JALAN, video tidak kosong. Ganti gambar
@@ -293,8 +304,9 @@ karaoke-table.md + build.py.
 ## Bikin surah baru (langkah ganti contoh)
 
 1. Tulis `templates/SUTRADARA-TEMPLATE.md` + `templates/GATE-TEMPLATE.md`
-   buat surah baru (teks, timing, gambar, karaoke). Minta VideoStory
-   (sutradara) acc sebelum build.
+   buat surah baru (teks, timing, gambar, karaoke). Ayat panjang: putuskan
+   potongannya di SUTRADARA §18 (2 atau 3 bagian, potong di batas frasa).
+   Minta VideoStory (sutradara) acc sebelum build.
 2. Ganti file contoh dengan file surah baru (nama file boleh sama, isi
    baru): `teks-quraish.md` (ganti nama kalau mau, ubah juga di build.py),
    `timing-ayat.md`, `transcript.json`, `karaoke-table.md` (tabel §5

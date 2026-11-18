@@ -20,6 +20,15 @@
 - [ ] Jalur B: teks Kemenag, karaoke, dan timing TIDAK berubah ikut tema. Cek: teks Arab + transliterasi + terjemahan tetap verbatim, peta karaoke tetap sama, timing ayat tetap sama.
 - [ ] Satu video cuma satu jalur: tidak ada gambar jalur A tercampur di video jalur B, atau sebaliknya.
 
+## Cek potong ayat panjang (perintah Dewa 2026-11-18)
+- [ ] Ayat yang dipotong tercatat di SUTRADARA §7 + §18: [DAFTAR AYAT + JUMLAH POTONGAN]. Maksimal 3 potongan per ayat.
+- [ ] Titik potong di batas frasa yang natural (tanda berhenti / batas klausa / jeda napas tengah ayat), BUKAN tengah kata, BUKAN tengah frasa. Kata terakhir tiap potongan + kata pertama potongan berikut tercatat.
+- [ ] Karaoke nyambung: nomor kata lanjut terus antar potongan, f_start/f_end tidak berubah, tidak ada kata hilang, tidak ada kata diulang, tidak ada tumpang tindih (cek karaoke-data.json + peta §5).
+- [ ] Tiap potongan gambar sendiri, gambar tiap potongan beda. Jalur A: gambar potongan sesuai cerita bagian ayat itu. Jalur B: gambar potongan sesuai tema (§17).
+- [ ] Transisi antar potongan SELALU dissolve (fade) 0,5 dtk, di project.json adegan yang dimasuki. Bukan directionalwarp, bukan fadecolor.
+- [ ] Teks tiap potongan cuma kata-kata potongan itu; pill menunjukkan bagian (Ayat n / [JUMLAH] (bagian k / K)).
+- [ ] Hitungan TOTAL: jumlah TOTAL semua adegan (termasuk potongan) kurang semua transisi x 0,5 dtk = durasi video. Cocok ([DURASI AUDIO] dtk).
+
 ## Cek peta karaoke [N] kata (WAJIB, terverifikasi dari disk)
 - [ ] [N] kata tampil ([PER AYAT]). Tidak ada tumpang tindih, semua durasi positif.
 - [ ] Gabung token Whisper: [DAFTAR GABUNGAN]. Batas gabung bersih (token bersambung tanpa jeda).
