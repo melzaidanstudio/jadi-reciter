@@ -5,12 +5,9 @@
     {
       "file": "scenes/02-ayat1.html",
       "transition": {
-        "type": "LinearBlur",
+        "type": "fade",
         "duration": 0.5,
-        "ease": "inOutCubic",
-        "params": {
-          "intensity": 0.1
-        }
+        "ease": "inOutCubic"
       }
     },
     {
@@ -46,12 +43,9 @@
     {
       "file": "scenes/05-ayat4.html",
       "transition": {
-        "type": "LinearBlur",
+        "type": "fade",
         "duration": 0.5,
-        "ease": "inOutCubic",
-        "params": {
-          "intensity": 0.1
-        }
+        "ease": "inOutCubic"
       }
     }
   ],

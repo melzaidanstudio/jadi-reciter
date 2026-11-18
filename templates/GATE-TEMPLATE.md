@@ -42,12 +42,11 @@
 - [ ] Audio: satu file audio.wav, start 0, volume 1.0. Tanpa BGM, tanpa musik, tanpa SFX.
 - [ ] Ekor: teks hilang [RENTANG], gambar tetap, fade hitam 0,5 dtk terakhir. Tanpa end card, tanpa CTA.
 
-## Cek DOT + PARALLAX + BLUR (SUTRADARA §16)
+## Cek DOT + PARALLAX (SUTRADARA §16)
 - [ ] DOT: titik putih 3 px, jarak 24 px, stagger 12 px, opacity 0.06, ~3.600 titik, ikut lapis gambar. Tidak ada titik di teks.
 - [ ] PARALLAX: pan gambar ~20 px per adegan ke arah tabel, zoom 1.3 semua adegan, partikel drift ~30 px berlawanan, teks drift ±15 px sinusoidal kembali 0 di akhir adegan, tidak ada elemen statis.
 - [ ] Zoom 1.3 framing/crop: cek per adegan di preview, subjek utama masih di frame di zoom maks ([DAFTAR SUBJEK PER ADEGAN]). Kalau terpotong, laporkan ke sutradara, jangan ubah nilai 1.3.
-- [ ] BLUR latar: radius 8 px, cuma di zona shadow box, pre-render sekali per adegan. Tepi di zona teks lebih halus, tepi di luar zona tetap tajam, stroke Arab tajam.
-- [ ] BLUR transisi: D1 + D4 blend blur, D2 warp + motion blur, D3 dip hitam, 0 hard cut di luar transisi.
+- [ ] Transisi: D1 + D4 blend lembut (fade), D2 warp diagonal, D3 dip hitam, 0 hard cut di luar transisi.
 
 ## Cek format + engine
 - [ ] project.json fps 24, halaman 1080x1920, render --scale 0.6667 jadi 720x1280. Jumlah frame: [DURASI] x 24 = [HITUNG]. Frame render [CEIL] (frame 0-[CEIL-1]). Angka pasti dari render, tulis di RENDER.md.
@@ -59,7 +58,7 @@
 ## Rencana preview (aturan motion-cut, preview dulu sebelum render penuh)
 - [ ] Builder buat stills + contact sheet, kirim ke sutradara SEBELUM render penuh. Sutradara acc dulu baru render penuh.
 - Waktu stills (waktu video, dtk): [DAFTAR 12 TITIK, ikut SUTRADARA §11].
-- Yang dicek sutradara di preview: kata aktif putih di frame yang benar, shadow box rapi + tidak tutupi pill, Arab [N] baris tidak meluber, terjemahan maksimal 2 baris, tanpa footer di frame mana pun, gambar per ayat benar, Ken Burns + pan jalan, partikel + cahaya ada di tiap adegan, transisi bernama terlihat, batas [AYAT] verifikasi telinga, DOT + blur latar + framing zoom 1.3.
+- Yang dicek sutradara di preview: kata aktif putih di frame yang benar, shadow box rapi + tidak tutupi pill, Arab [N] baris tidak meluber, terjemahan maksimal 2 baris, tanpa footer di frame mana pun, gambar per ayat benar, Ken Burns + pan jalan, partikel + cahaya ada di tiap adegan, transisi bernama terlihat, batas [AYAT] verifikasi telinga, DOT + framing zoom 1.3.
 
 ## Blocker: [N]
 - [DAFTAR BLOCKER, atau "0" kalau semua input ada + terverifikasi.]

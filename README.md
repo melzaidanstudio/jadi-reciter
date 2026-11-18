@@ -81,7 +81,7 @@ motlab stills scenes/05-ayat4.html preview/s5 13.31 10.81 0.25 17.81 19.01 --sca
 #    Baca semua still ukuran penuh. Yang dicek: kata aktif PUTIH di frame yang
 #    benar, shadow box rapi + tidak tutupi pill, Arab 2 baris Ayat 4 tidak
 #    meluber, terjemahan maks 2 baris, tanpa footer, gambar per ayat benar,
-#    zoom 1.3 + pan jalan, DOT kelihatan, blur latar cuma di zona teks.
+#    zoom 1.3 + pan jalan, DOT kelihatan.
 #    Waktu stills lengkap (12 titik, waktu video): lihat templates/SUTRADARA-TEMPLATE.md §11.
 #    Kalau preview ada yang salah, betulkan dulu, stills ulang, baru render.
 
@@ -129,11 +129,11 @@ templates/                 SUTRADARA-TEMPLATE.md, GATE-TEMPLATE.md, RENDER-TEMPL
 Yang TIDAK ada di repo (sengaja): motlab (prerequisite, bukan fork),
 audio recitation (hak cipta qari), MP4 hasil render (dibangun lokal).
 
-## Efek visual template: DOT, PARALLAX, BLUR
+## Efek visual template: DOT, PARALLAX
 
-Template ini pakai tiga efek visual yang sama di semua video, supaya semua
+Template ini pakai dua efek visual yang sama di semua video, supaya semua
 surah kelihatan satu keluarga. Detail angka lengkap ada di
-`TEKNIK-DOT-PARALLAX-BLUR.md` (spec VideoStory, md5 fb7fbfdd, 160 baris;
+`TEKNIK-DOT-PARALLAX.md` (spec VideoStory, md5 e4063775, 141 baris;
 ringkasnya di `templates/SUTRADARA-TEMPLATE.md` §16).
 
 **DOT (pola titik).** Grid titik putih halus di atas gambar (diameter 3 px,
@@ -150,12 +150,6 @@ gambar (ke arah cahaya atau arah gerak subjek). Zoom semua adegan 1.3
 (perintah 2026-11-18; dulu 1.03-1.05). Di zoom maks, area gambar yang
 kelihatan 831x1477 px (sekitar 11,5% per sisi terpotong); cek framing per
 adegan di preview, subjek utama harus tetap di frame.
-
-**BLUR (kaca buram + transisi).** Dua blur yang beda fungsi: (1) blur latar:
-gambar di belakang kotak teks dihaluskan (radius 8 px, cuma di dalam kotak
-teks, pre-render sekali per adegan) supaya karaoke gampang dibaca, gambar
-utama di luar kotak tetap tajam; (2) blur transisi: tiap pindah ayat pakai
-transisi bernama (blur lembut, warp, atau dip ke hitam, 0,5 detik).
 
 Semua efek deterministik (hasil render selalu sama), tidak menutupi teks
 karaoke, dan tidak mengaburkan gambar utama.

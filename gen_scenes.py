@@ -3,11 +3,13 @@
 # Baca karaoke-data.json (dari build.py), tulis scenes/*.html + project.json.
 # Teks Arab + transliterasi + terjemahan dari teks-quraish.md (programmatic, bukan retype).
 # Peta karaoke 21 kata dari tabel §5 SUTRADARA (programmatic, bukan retype).
-# MERGE TEMPLATE (Bos 2026-11-18 ~00:48-00:55 WIB, spec VideoStory md5 fb7fbfdd):
+# MERGE TEMPLATE (Bos 2026-11-18 ~00:48-00:55 WIB, spec VideoStory TEKNIK-DOT-PARALLAX.md):
 # DOT (§1: titik putih 3 px, jarak 24 px, stagger 12 px, opacity 0.06, ikut gambar),
 # PARALLAX (§2: gambar zoom 1.3 + pan 20 px, partikel drift 30 px berlawanan,
-# teks drift sinusoidal +-15 px berlawanan), BLUR (§3: blur latar 8 px cuma di zona
-# shadow box, pre-render sekali per adegan; transisi D1-D4 tidak berubah).
+# teks drift sinusoidal +-15 px berlawanan).
+# NO-KABUR (perintah Bos 2026-11-18, Dewa): efek kabur latar DIHAPUS total,
+# background tajam; transisi D1 + D4 yang dulu pakai efek kabur jadi
+# cross-dissolve biasa (fade).
 # Zoom 1.3 SEMUA adegan (perintah Bos 00:55, dulu 1.03-1.05). Di zoom maks, area
 # kelihatan 831x1477 px (~11,5% per sisi terpotong); cek framing di preview.
 # Koreksi CEO (pakai yang benar ini, bukan catatan §11 yang salah):
@@ -151,7 +153,6 @@ const hash = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s
 
 const img = new Image();
 let LAYOUT = null;
-let blurCv = null;  // salinan blur gambar (pre-render sekali per adegan, spec §3.2)
 
 async function loadAssets() {
   await Promise.all([
@@ -161,13 +162,6 @@ async function loadAssets() {
     new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = IMG_SRC; }),
   ]);
   await img.decode();
-  // Blur latar 8 px, pre-render SEKALI per adegan (spec §3.2). Bukan per frame:
-  // blur per frame di Chrome software lambat (~50-100 ms/frame). Deterministik.
-  blurCv = document.createElement('canvas');
-  blurCv.width = W; blurCv.height = H;
-  const bctx = blurCv.getContext('2d');
-  bctx.filter = 'blur(8px)';
-  bctx.drawImage(img, 0, 0, W, H);
 }
 
 function wrapText(text, size, maxW, maxLines) {
@@ -398,7 +392,7 @@ function shimmer(t, dX, dY) {
 function drawDots() {
   // DOT (spec §1): grid titik putih 3 px, jarak 24 px, baris ganjil geser 12 px,
   // opacity 0.06. ~3.600 titik (45 kolom x 80 baris). Digambar DI DALAM transform
-  // Ken Burns gambar (ikut zoom + pan, lapis 1), sesudah salinan blur, sebelum partikel.
+  // Ken Burns gambar (ikut zoom + pan, lapis 1), sesudah gambar, sebelum partikel.
   // Titik tidak pernah menyentuh teks: shadow box + pill menutupinya di area teks.
   ctx.save();
   ctx.fillStyle = 'rgba(255,255,255,0.06)';
@@ -432,25 +426,14 @@ function render(t) {
   ctx.translate(W / 2 + panX, H / 2 + panY); ctx.scale(z, z); ctx.translate(-W / 2, -H / 2);
   ctx.drawImage(img, 0, 0, W, H);
   ctx.restore();
-  // (2) Salinan blur 8 px, HANYA di zona shadow box (spec §3.2). Rect clip ikut
-  // drift teks (tdx, tdy) supaya blur tetap di bawah teks yang bergeser.
-  if (LAYOUT) {
-    ctx.save();
-    ctx.beginPath();
-    ctx.rect(60 + tdx, LAYOUT.boxTop + tdy, 960, LAYOUT.boxH);
-    ctx.clip();
-    ctx.translate(W / 2 + panX, H / 2 + panY); ctx.scale(z, z); ctx.translate(-W / 2, -H / 2);
-    ctx.drawImage(blurCv, 0, 0, W, H);
-    ctx.restore();
-  }
-  // (3) DOT, ikut transform gambar (spec §1.3).
+  // (2) DOT, ikut transform gambar (spec §1.3).
   ctx.save();
   ctx.translate(W / 2 + panX, H / 2 + panY); ctx.scale(z, z); ctx.translate(-W / 2, -H / 2);
   drawDots();
   ctx.restore();
-  // (4) Partikel + cahaya (drift lapis 2).
+  // (3) Partikel + cahaya (drift lapis 2).
   drawLight(t, dX, dY);
-  // (5) Pill + blok teks, drift sinusoidal sebagai SATU lapis (spec §2.2).
+  // (4) Pill + blok teks, drift sinusoidal sebagai SATU lapis (spec §2.2).
   const op = textOp(t);
   ctx.save();
   ctx.translate(tdx, tdy);
@@ -520,10 +503,10 @@ def main():
         "fps": 24,
         "scenes": [
             "scenes/01-basmalah.html",
-            {"file": "scenes/02-ayat1.html", "transition": {"type": "LinearBlur", "duration": 0.5, "ease": "inOutCubic", "params": {"intensity": 0.1}}},
+            {"file": "scenes/02-ayat1.html", "transition": {"type": "fade", "duration": 0.5, "ease": "inOutCubic"}},
             {"file": "scenes/03-ayat2.html", "transition": {"type": "directionalwarp", "duration": 0.5, "ease": "inOutCubic", "params": {"direction": [-1, 1]}}},
             {"file": "scenes/04-ayat3.html", "transition": {"type": "fadecolor", "duration": 0.5, "ease": "inOutCubic", "params": {"color": [0, 0, 0], "colorPhase": 0.4}}},
-            {"file": "scenes/05-ayat4.html", "transition": {"type": "LinearBlur", "duration": 0.5, "ease": "inOutCubic", "params": {"intensity": 0.1}}},
+            {"file": "scenes/05-ayat4.html", "transition": {"type": "fade", "duration": 0.5, "ease": "inOutCubic"}},
         ],
         "audio": [{"file": "audio/audio.wav", "start": 0, "volume": 1.0}],
     }

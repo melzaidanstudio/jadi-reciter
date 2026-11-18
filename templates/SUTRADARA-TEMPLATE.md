@@ -72,18 +72,18 @@
 - Teks muncul per ayat UTUH (bukan kata per kata munculnya, cuma WARNA kata yang berubah): teks ayat muncul bersama dissolve di awal ayat, tetap selama ayat, hilang di akhir ayat. Di ekor teks hilang, gambar tetap, fade hitam 0,5 dtk terakhir (§8 adegan terakhir).
 
 ## 7. Adegan ([JUMLAH] adegan, satu halaman motlab per adegan)
-- Semua adegan: gambar latar (webp di assets/images/), Ken Burns zoom-in (mulai 1,00x, selesai 1.3x, linear), pan 20 px (arah per adegan, §16), partikel + cahaya digambar di atas gambar (kode canvas, bukan gambar baru), shadow box + teks (§6), pill (§6), DOT + blur latar (§16).
+- Semua adegan: gambar latar (webp di assets/images/), Ken Burns zoom-in (mulai 1,00x, selesai 1.3x, linear), pan 20 px (arah per adegan, §16), partikel + cahaya digambar di atas gambar (kode canvas, bukan gambar baru), shadow box + teks (§6), pill (§6), DOT (§16).
 - ADEGAN 1 [NAMA] (scenes/[FILE]): gambar [FILE] ([DESKRIPSI]). TOTAL [X] dtk (video [A]-[B]). Teks [AYAT] [X]-[Y] (lokal t [X]-[Y]). [Hening awal kalau ada: gambar saja, tanpa teks.] Cahaya: [DESKRIPSI]. Partikel: [JENIS]. Transisi keluar: [JENIS] (§8).
 - ADEGAN 2 [NAMA]: [SAMA, satu blok per adegan, sampai adegan terakhir.]
 - Cek jumlah TOTAL: [X] + [X] + ... = [TOTAL] dtk. Kurang [N] transisi x 0,5 dtk = [OVERLAP] dtk overlap = [DURASI VIDEO] dtk. Cocok ([DURASI AUDIO] dtk).
 
 ## 8. Transisi bernama (motion-cut, tiap pindah ayat 0,5 dtk)
 - Semua transisi 0,5 dtk, di tengah jeda antar ayat. Jenis + alasan:
-  - D1 [A] ke [B] (video [X]-[Y]): blur (LinearBlur, intensity 0.1). Alir mengalir.
+  - D1 [A] ke [B] (video [X]-[Y]): fade (cross-dissolve). Alir mengalir.
   - D2 [A] ke [B] (video [X]-[Y]): whip (directionalwarp, direction [-1, 1]). Pindah tempat jauh.
   - D3 [A] ke [B] (video [X]-[Y]): dip (fadecolor, color [0,0,0] hitam, colorPhase 0.4). Lompat waktu + babak baru.
-  - D4 [A] ke [B] (video [X]-[Y]): blur (LinearBlur, intensity 0.1). Alir mengalir.
-- Di project.json, transisi ditulis di adegan yang DIMASUKI (bukan yang ditinggalkan), format motlab: { "file": "scenes/02-ayat1.html", "transition": { "type": "LinearBlur", "duration": 0.5, "ease": "inOutCubic", "params": { "intensity": 0.1 } } }. Nama type tidak case-sensitive.
+  - D4 [A] ke [B] (video [X]-[Y]): fade (cross-dissolve). Alir mengalir.
+- Di project.json, transisi ditulis di adegan yang DIMASUKI (bukan yang ditinggalkan), format motlab: { "file": "scenes/02-ayat1.html", "transition": { "type": "fade", "duration": 0.5, "ease": "inOutCubic" } }. Nama type tidak case-sensitive.
 - Perhatian motlab: dua adegan tumpang tindih selama transisi, jadi adegan yang ditinggalkan harus punya isi sampai akhir TOTAL-nya, dan adegan yang dimasuki sudah jalan sejak awal TOTAL-nya. Audio start di project.json pakai waktu video jadi (sesudah overlap), jangan geser audio karena transisi (audio cuma satu file, start 0).
 
 ## 9. Audio
@@ -100,7 +100,7 @@
 ## 11. Preview dulu, render belakangan (aturan motion-cut)
 - Builder buat stills pakai motlab stills per adegan + tiap transisi, lalu contact sheet, kirim ke sutradara. Sutradara cek SEBELUM render penuh.
 - Waktu stills (waktu video, dtk): [DAFTAR 12 TITIK: satu per ayat (kata aktif) + jeda napas + tiap transisi tengah + ekor + frame terakhir]. Contoh Quraish: Basmalah 2,63 (kata 3 aktif, frame 63), Ayat 1 9,50 (kata 6, frame 228), Ayat 2 17,00 (kata 9, frame 408), Ayat 3 25,00 (kata 13, frame 600), Ayat 4 42,00 (kata 20, frame 1008), Ayat 4 jeda napas 39,50 (tidak ada kata aktif, frame 948), transisi D1 6,86 (frame 164), D2 11,89 (frame 285), D3 21,73 (frame 521), D4 28,94 (frame 694), ekor 46,50 (teks hilang, frame 1116), frame terakhir 47,70 (hampir hitam, frame 1144).
-- Yang dicek sutradara di preview: kata aktif putih di frame yang benar (tidak telat, tidak salah kata), shadow box rapi + tidak tutupi pill, Arab [N] baris tidak meluber, terjemahan maksimal 2 baris, tanpa footer di frame mana pun, gambar per ayat benar, Ken Burns + pan jalan, partikel + cahaya ada di tiap adegan, transisi bernama terlihat, batas [AYAT] verifikasi telinga, DOT kelihatan, blur latar cuma di zona teks, framing zoom 1.3 (subjek utama masih di frame).
+- Yang dicek sutradara di preview: kata aktif putih di frame yang benar (tidak telat, tidak salah kata), shadow box rapi + tidak tutupi pill, Arab [N] baris tidak meluber, terjemahan maksimal 2 baris, tanpa footer di frame mana pun, gambar per ayat benar, Ken Burns + pan jalan, partikel + cahaya ada di tiap adegan, transisi bernama terlihat, batas [AYAT] verifikasi telinga, DOT kelihatan, framing zoom 1.3 (subjek utama masih di frame).
 - Kalau preview ada yang salah, betulkan dulu, stills ulang, baru render penuh. Jangan render penuh dari preview yang belum acc.
 
 ## 12. Waktu build + render (perintah Bos, perbandingan antar versi)
@@ -117,7 +117,7 @@
 
 ## 14. Yang tetap dari v1
 - [DAFTAR YANG TETAP: gambar sama, audio utuh, teks verbatim, timing ayat, Ken Burns + pan, pill, ekor teks hilang + fade hitam 0,5 dtk terakhir, tanpa end card, tanpa CTA.]
-- Yang berubah cuma [N] hal di §3 + [DOT/PARALLAX/BLUR §16] + engine motlab + transisi bernama + partikel/cahaya (motion-cut).
+- Yang berubah cuma [N] hal di §3 + [DOT/PARALLAX §16] + engine motlab + transisi bernama + partikel/cahaya (motion-cut).
 
 ## 15. CATAT WAKTU (perintah Bos, perbandingan antar versi)
 - Builder WAJIB isi tabel di bawah ini di RENDER.md, pakai JAM NYATA (WIB), bukan perkiraan. Laporan akhir versi ini HARUS bawa angka ini.
@@ -130,12 +130,12 @@
 - TOTAL menit build + render: (isi, menit)
 - Kalau render diulang karena revisi, catat tiap run (run 1, run 2) + total. Jangan tulis perkiraan, tulis hasil ukur jam nyata.
 
-## 16. ADDENDUM: DOT, PARALLAX, BLUR (spec VideoStory, md5 fb7fbfdd, 160 baris)
+## 16. ADDENDUM: DOT, PARALLAX (spec VideoStory, md5 e4063775, 141 baris)
 - Teknik ini addendum ke SUTRADARA ini, bukan ganti SUTRADARA. Semua angka
   dalam piksel HALAMAN 1080x1920. Output 720x1280 = halaman x 0.6667.
 - Urutan gambar per frame (dari belakang ke depan): (1) gambar tajam + Ken
-  Burns + pan, (2) salinan blur zona teks, (3) pola DOT, (4) partikel,
-  (5) shadow box + pill + teks, (6) fade hitam ekor (adegan terakhir saja).
+  Burns + pan, (2) pola DOT, (3) partikel,
+  (4) shadow box + pill + teks, (5) fade hitam ekor (adegan terakhir saja).
 - DOT: diameter titik 3 px, jarak grid 24 px horizontal + 24 px vertikal,
   baris ganjil geser 12 px ke kanan (stagger), warna putih #FFFFFF, opacity
   0.06, bentuk lingkaran (radius 1.5 px). Jumlah 45 kolom x 80 baris =
@@ -166,22 +166,11 @@
   framing/crop per adegan di preview (subjek utama masih di frame atau
   tidak). Kalau subjek utama terpotong, laporkan ke sutradara. Jangan ubah
   nilainya, nilai tetap 1.3 perintah Bos; yang dicek cuma dampaknya.
-- BLUR LATAR: radius 8 px, HANYA di dalam kotak shadow box (x 60-1020, y
-  atas kotak sampai 1731, ikut drift teks). Di luar kotak, gambar TETAP
-  TAJAM. Cara: salinan blur gambar (pre-render sekali per adegan di load,
-  offscreen canvas, filter blur 8 px), digambar per frame dengan transform
-  Ken Burns yang SAMA kayak gambar tajam, di-clip ke rect shadow box.
-  Lalu shadow box (hitam 0.55) digambar di atasnya, lalu teks. DOT digambar
-  DI ATAS salinan blur (titik tetap tajam di zona teks).
-- BLUR TRANSISI (sudah ada di motion-cut, JANGAN DIUBAH angkanya): D1 +
-  D4 LinearBlur 0.1, D2 directionalwarp [-1,1], D3 fadecolor hitam 0.4.
-  LinearBlur intensity 0.1 adalah blur SHADER (gl-transitions), bukan
-  blur canvas. Jangan samakan sama blur latar 8 px.
+- TRANSISI (motion-cut): D1 + D4 fade 0.5 (cross-dissolve), D2 directionalwarp [-1,1], D3 fadecolor hitam 0.4.
 - Verifikasi: DOT ~3.000 titik kelihatan di still, diameter 2 px (output),
   opacity 0.04-0.08, tidak ada titik di teks, titik bergerak ikut gambar.
   Pan ~20 px per adegan, zoom 1.3, partikel drift ~30 px berlawanan, teks
   drift ±15 px kembali 0 di akhir adegan, tidak ada elemen statis (MAD >0
-  semua zona). Blur latar: tepi di zona teks ~8 px lebih halus dari tepi
-  di luar zona, tepi di luar zona tetap 1-2 px (tajam), stroke Arab 1-2 px
-  (tajam). Transisi: D1 + D4 blend blur, D2 warp + motion blur, D3 dip
+  semua zona). Gambar tajam di semua zona, tepi 1-2 px, stroke Arab 1-2 px
+  (tajam). Transisi: D1 + D4 blend lembut (fade), D2 warp diagonal, D3 dip
   hitam, 0 hard cut di luar transisi.

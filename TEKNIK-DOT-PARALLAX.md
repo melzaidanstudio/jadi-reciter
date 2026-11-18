@@ -1,16 +1,19 @@
-# SPEC TEKNIK: DOT, PARALLAX, BLUR, Template Jadi-Reciter
+# SPEC TEKNIK: DOT, PARALLAX, Template Jadi-Reciter
 # VideoStory, 2026-11-18 ~00:52 WIB
 # Perintah Bos via CEO 2026-11-18 ~00:48 WIB. Spec teknik buat repo template jadi-reciter.
 # Basis: proyek Quraish v2 motlab + motion-cut (~/workspace/murrotal-quraish-v2-motlab/).
 # Repo jadi-reciter (~/workspace/jadi-reciter/) BELUM ADA saat spec ini ditulis (dicek 00:52 WIB, folder tidak ditemukan); Builder 2 yang bangun repo-nya.
 # Spec ini file sendiri, jangan edit folder repo Builder 2 langsung.
+# REVISI NO-KABUR 2026-11-18 (perintah Bos, Dewa): efek kabur DIHAPUS total dari spec
+# ini. File spec lama diganti file ini. Transisi D1 + D4 yang
+# dulu pakai efek kabur jadi cross-dissolve biasa (fade). DOT + PARALLAX tidak berubah.
 
 ## 0. Konteks + aturan dasar
 - Template: video murrotal (Qur'an) dari Quraish v2 motlab + motion-cut. Engine motlab, output 720x1280 24fps, halaman 1080x1920, render --scale 0.6667.
 - 5 adegan contoh: Basmalah + Ayat 1-4 (lihat tabel §4). SUTRADARA acuan: SUTRADARA-MURROTAL-QURAISH-V2.md (md5 7ebee301, 152 baris, di RENDER.md v2). Teknik di bawah ini adalah ADDENDUM ke SUTRADARA itu (pasal baru §16), bukan ganti SUTRADARA.
-- Tiga teknik: DOT (§1), PARALLAX (§2), BLUR (§3). Semuanya jalan di motlab + Chrome render, deterministik (tanpa Math.random, tanpa Date.now, cuma fungsi t + hash tetap), tidak nutupin teks karaoke, tidak bikin gambar utama kabur.
+- Dua teknik: DOT (§1), PARALLAX (§2). Semuanya jalan di motlab + Chrome render, deterministik (tanpa Math.random, tanpa Date.now, cuma fungsi t + hash tetap), tidak nutupin teks karaoke, tidak bikin gambar utama kabur.
 - Semua angka dalam piksel HALAMAN 1080x1920, kecuali disebut lain. Output 720x1280 = halaman x 0.6667 (angka output = angka halaman x 2/3).
-- Urutan gambar per frame (dari belakang ke depan): (1) gambar tajam + Ken Burns + pan, (2) salinan blur zona teks, (3) pola DOT, (4) partikel, (5) shadow box + pill + teks, (6) fade hitam ekor (Ayat 4 saja).
+- Urutan gambar per frame (dari belakang ke depan): (1) gambar tajam + Ken Burns + pan, (2) pola DOT, (3) partikel, (4) shadow box + pill + teks, (5) fade hitam ekor (Ayat 4 saja).
 
 ## 1. DOT: pola titik overlay di gambar
 ### 1.1 Tujuan
@@ -28,7 +31,7 @@
 - Tidak kena (tertutup, bukan dihapus): area shadow box (x 60-1020, y atas kotak sampai 1731) + area pill (y 60-112). Shadow box (hitam 0.55) + pill menutupi titik di area teks, jadi titik TIDAK PERNAH menyentuh teks karaoke.
 - DOT ikut lapis gambar (lapis 1, §2): titik bergerak + membesar ikut Ken Burns zoom + pan gambar. Titik adalah tekstur DI gambar, bukan lapis sendiri.
 ### 1.4 Implementasi (motlab, canvas 2D)
-- Gambar titik sesudah gambar latar + salinan blur zona teks (§3), sebelum partikel + teks.
+- Gambar titik sesudah gambar latar, sebelum partikel + teks.
 - Terapkan transform Ken Burns yang sama kayak gambar (translate + scale + pan), lalu gambar grid titik.
 - Grid tetap (tanpa random, tanpa hash). Titik dihitung dari koordinat grid, bukan dari posisi acak.
 - 3.600 arc per frame: cepat di Chrome (di bawah 5 ms). Kalau mau lebih cepat, pakai fillRect 3x3.
@@ -73,88 +76,66 @@
 - Drift partikel: bandingkan posisi partikel di dua still; partikel bergeser BERLAWANAN arah pan gambar, ~30 px x (delta t / TOTAL) (toleransi +-8 px).
 - Drift teks: ukur posisi shadow box / baris Arab (centroid) di dua still (awal vs tengah adegan); harap geser ~15 px ke arah berlawanan pan di tengah adegan, kembali ~0 di akhir adegan (toleransi +-5 px).
 - Tidak ada elemen statis: MAD (mean absolute difference) antar frame berurutan di tiap adegan harap >0 di semua zona (gambar, partikel, teks). Kalau ada zona yang MAD = 0, ada elemen yang diam, gagal.
-- Keterbacaan: Arab tetap tajam di semua frame (teks tidak blur, tidak goyang). Cek lebar stroke huruf Arab di still: harap 1-2 px (sama kayak tanpa drift).
+- Keterbacaan: Arab tetap tajam di semua frame (teks tidak goyang). Cek lebar stroke huruf Arab di still: harap 1-2 px (sama kayak tanpa drift).
 
-## 3. BLUR: blur latar + blur transisi (DIBEDAKAN)
-### 3.1 Dua jenis blur, jangan dicampur
-- BLUR LATAR (baru, §3.2): efek canvas (ctx.filter) di LAPIS GAMBAR, di dalam zona teks, aktif SEPANJANG adegan. Tujuannya keterbacaan karaoke (kaca buram di belakang teks).
-- BLUR TRANSISI (sudah ada di motion-cut, §3.3): efek shader gl-transitions di SELURUH frame, aktif CUMA selama 0,5 dtk overlap transisi. Tujuannya blend dua adegan.
-- Keduanya tidak bentrok: blur latar adalah bagian dari gambar adegan (ikut adegan di-blend shader transisi); blur transisi adalah cara dua adegan di-blend. Saat transisi, teks sudah fade out (tidak ada teks/UI di dissolve), jadi blur latar cuma bagian dari gambar yang di-blend.
-### 3.2 Blur latar (kaca buram zona teks)
-- Radius: 8 px (halaman), jadi ~5 px di output 720x1280.
-- Area: HANYA di dalam kotak shadow box (x 60-1020, y atas kotak sampai 1731, ikut drift teks §2.2: rect geser dx horizontal). Di luar kotak, gambar TETAP TAJAM (gambar utama tidak kabur).
-- Cara: salinan blur gambar (pre-render sekali per adegan di load, offscreen canvas, filter blur 8 px), digambar per frame dengan transform Ken Burns yang SAMA kayak gambar tajam, di-clip ke rect shadow box (rect ikut drift teks). Lalu shadow box (hitam 0.55) digambar di atasnya, lalu teks.
-- Kenapa pre-render sekali (bukan blur per frame): blur per frame di Chrome software (SwiftShader) lambat (~50-100 ms per frame, tambah 1-2 menit render). Pre-render sekali per adegan = 1 blur per adegan, lalu cuma drawImage per frame (cepat). Deterministik (blur Chrome tetap buat input + radius yang sama).
-- Kenapa 8 px: cukup buat haluskan detail sibuk di belakang teks (tepi bangunan, dedaunan), tidak cukup buat bikin gambar kelihatan kabur. Di bawah shadow box 0.55, efeknya halus tapi nyata.
-- Semua 5 adegan pakai blur latar yang sama (konsisten). Paling terasa di Ayat 2 (gunung bersalju, detail tajam) + Ayat 4 (oasis, dedaunan rapat).
-- DOT di atas blur: pola DOT (§1) digambar DI ATAS salinan blur (titik tetap tajam di zona teks, tekstur di atas kaca buram). Urutan lapis 1: gambar tajam, salinan blur zona teks, DOT.
-### 3.3 Blur transisi (motion-cut, sudah ada, JANGAN DIUBAH angkanya)
-- D1 Basmalah ke Ayat 1 (video 6,61-7,11): LinearBlur, duration 0.5, ease inOutCubic, params intensity 0.1. Blend blur lembut, alir mengalir.
-- D2 Ayat 1 ke Ayat 2 (video 11,64-12,14): directionalwarp, duration 0.5, ease inOutCubic, params direction [-1, 1]. Warp diagonal + motion blur bawaan shader. Pindah tempat jauh (gurun ke gunung).
-- D3 Ayat 2 ke Ayat 3 (video 21,48-21,98): fadecolor, duration 0.5, ease inOutCubic, params color [0,0,0] hitam, colorPhase 0.4. Dip ke hitam, TIDAK ADA blur (lompat waktu + babak baru).
-- D4 Ayat 3 ke Ayat 4 (video 28,69-29,19): LinearBlur, duration 0.5, ease inOutCubic, params intensity 0.1. Blend blur lembut, alir mengalir.
+## 3. TRANSISI antar adegan (motion-cut)
+- D1 Basmalah ke Ayat 1 (video 6,61-7,11): fade (cross-dissolve), duration 0.5, ease inOutCubic. Blend lembut, alir mengalir.
+- D2 Ayat 1 ke Ayat 2 (video 11,64-12,14): directionalwarp, duration 0.5, ease inOutCubic, params direction [-1, 1]. Warp diagonal. Pindah tempat jauh (gurun ke gunung).
+- D3 Ayat 2 ke Ayat 3 (video 21,48-21,98): fadecolor, duration 0.5, ease inOutCubic, params color [0,0,0] hitam, colorPhase 0.4. Dip ke hitam (lompat waktu + babak baru).
+- D4 Ayat 3 ke Ayat 4 (video 28,69-29,19): fade (cross-dissolve), duration 0.5, ease inOutCubic. Blend lembut, alir mengalir.
+- D1 + D4 dulu pakai transisi efek kabur; diganti fade per perintah Bos 2026-11-18 (no-kabur). D2 + D3 tidak berubah.
 - Semua transisi ditulis di project.json di adegan yang DIMASUKI (bukan yang ditinggalkan), ikut SUTRADARA §8 + §10.
-- LinearBlur intensity 0.1 adalah blur SHADER (gl-transitions), bukan blur canvas. Jangan samakan sama blur latar 8 px (§3.2). Intensity 0.1 = blur arah ringan selama blend; bukan Gaussian blur 0.1 px.
-### 3.4 Verifikasi (angka + cara ukur)
-- Blur latar: bandingkan ketajaman zona teks (dalam shadow box) vs zona gambar di luar kotak di still yang sama. Ukur lebar tepi (edge width) satu detail tajam di gambar (misal tepi bangunan): di dalam zona teks harap ~8 px lebih lebar (lebih halus) dari tepi yang sama di luar zona (toleransi +-3 px). Atau ukur varians Laplacian zona teks vs zona luar: zona teks harap lebih rendah (lebih halus).
-- Gambar utama tajam: ukur lebar tepi detail gambar DI LUAR zona teks di still; harap 1-2 px (tajam, sama kayak tanpa blur). Kalau tepi di luar zona ikut kabur, blur bocor, gagal.
-- Teks tidak blur: ukur lebar stroke huruf Arab di still; harap 1-2 px (tajam). Teks digambar sesudah blur, jadi tidak kena blur. Kalau stroke Arab kabur, ada yang salah di urutan gambar, gagal.
-- Transisi blur: cek frame tengah tiap transisi (D1 f164, D2 f285, D3 f521, D4 f694): D1 + D4 harap blend blur (bukan hard cut), D2 harap warp diagonal + motion blur, D3 harap gelap (dip hitam, bukan blur). Frame-diff penuh: 0 hard cut di luar jendela transisi (ikut RENDER.md v2: median mean 0,208, maks di luar transisi di bawah 20).
-- Blur tidak ganggu karaoke: kata aktif putih di frame yang benar (ikut peta karaoke SUTRADARA §5), tidak telat, tidak salah kata. Blur cuma di belakang teks, bukan di teks.
+### 3.1 Verifikasi (angka + cara ukur)
+- Transisi: cek frame tengah tiap transisi (D1 f164, D2 f285, D3 f521, D4 f694): D1 + D4 harap blend lembut (cross-dissolve, bukan hard cut), D2 harap warp diagonal, D3 harap gelap (dip hitam). Frame-diff penuh: 0 hard cut di luar jendela transisi (ikut RENDER.md v2: median mean 0,208, maks di luar transisi di bawah 20).
+- Gambar utama tajam: ukur lebar tepi detail gambar di still; harap 1-2 px (tajam). Kalau tepi gambar kabur di mana pun, ada yang salah, gagal.
+- Teks tajam: ukur lebar stroke huruf Arab di still; harap 1-2 px (tajam). Kalau stroke Arab kabur, ada yang salah di urutan gambar, gagal.
+- Transisi tidak ganggu karaoke: kata aktif putih di frame yang benar (ikut peta karaoke SUTRADARA §5), tidak telat, tidak salah kata.
 
 ## 4. Tabel per adegan (5 adegan Quraish, semua teknik)
-| Adegan | TOTAL | DOT | PARALLAX (pan 20 px + zoom) | BLUR latar (8 px, zona teks) | BLUR transisi (masuk) |
-|---|---|---|---|---|---|
-| Basmalah | 7.11 dtk | 3 px / 24 px / putih 0.06 | ATAS, zoom 1.3 | Ya | - (adegan pertama) |
-| Ayat 1 | 5.53 dtk | sama | KANAN, zoom 1.3 | Ya | D1 LinearBlur 0.1 |
-| Ayat 2 | 10.34 dtk | sama | KIRI, zoom 1.3 | Ya | D2 directionalwarp [-1,1] |
-| Ayat 3 | 7.71 dtk | sama | KANAN, zoom 1.3 | Ya | D3 fadecolor hitam 0.4 |
-| Ayat 4 | 19.03 dtk | sama | ATAS, zoom 1.3 | Ya | D4 LinearBlur 0.1 |
+| Adegan | TOTAL | DOT | PARALLAX (pan 20 px + zoom) | Transisi (masuk) |
+|---|---|---|---|---|
+| Basmalah | 7.11 dtk | 3 px / 24 px / putih 0.06 | ATAS, zoom 1.3 | - (adegan pertama) |
+| Ayat 1 | 5.53 dtk | sama | KANAN, zoom 1.3 | D1 fade 0.5 |
+| Ayat 2 | 10.34 dtk | sama | KIRI, zoom 1.3 | D2 directionalwarp [-1,1] |
+| Ayat 3 | 7.71 dtk | sama | KANAN, zoom 1.3 | D3 fadecolor hitam 0.4 |
+| Ayat 4 | 19.03 dtk | sama | ATAS, zoom 1.3 | D4 fade 0.5 |
 - Partikel per adegan (lapis 2, drift 30 px berlawanan pan): Basmalah rays, Ayat 1 dusk, Ayat 2 snow, Ayat 3 night, Ayat 4 oasis (ikut SUTRADARA §7).
 - Teks drift (lapis 3, ±15 px sinusoidal berlawanan pan): semua adegan sama.
-- SUTRADARA yang diterapin: SUTRADARA-MURROTAL-QURAISH-V2.md (motlab + motion-cut). Teknik ini addendum §16 ke SUTRADARA itu. Buat surah lain, SUTRADARA-nya diganti (teks + timing + gambar baru), tapi angka DOT/PARALLAX/BLUR di spec ini TETAP (cuma arah pan yang disesuaikan per gambar, ikut aturan §2.3 (zoom tetap 1.3 semua adegan)).
+- SUTRADARA yang diterapin: SUTRADARA-MURROTAL-QURAISH-V2.md (motlab + motion-cut). Teknik ini addendum §16 ke SUTRADARA itu. Buat surah lain, SUTRADARA-nya diganti (teks + timing + gambar baru), tapi angka DOT/PARALLAX di spec ini TETAP (cuma arah pan yang disesuaikan per gambar, ikut aturan §2.3 (zoom tetap 1.3 semua adegan)).
 
 ## 5. Konflik + prioritas (mana yang menang, kenapa)
-1. DOT vs BLUR di zona teks: DOT menang (titik digambar di atas salinan blur, titik tetap tajam). Alasan: DOT adalah tekstur, BLUR adalah pelembut; tekstur di atas kaca buram kelihatan bagus, sebaliknya (blur di atas titik) bikin titik kabur dan tekstur hilang.
-2. PARALLAX vs BLUR: BLUR ikut PARALLAX (rect clip blur geser ikut drift teks dx). Alasan: blur adalah latar buat teks; kalau teks bergeser tapi blur diam, teks keluar dari zona blur dan keterbacaan hilang.
-3. PARALLAX vs DOT: DOT ikut gambar (lapis 1), teks bergerak sendiri (lapis 3). Tidak ada konflik; titik tidak pernah menyentuh teks karena shadow box menutupi.
-4. DOT vs karaoke: TEKS menang (shadow box menutupi titik di area teks). Titik tidak pernah di atas teks.
-5. BLUR vs gambar utama: GAMBAR menang di luar zona teks (blur cuma di dalam kotak shadow box). Gambar utama tidak kabur.
-6. BLUR vs teks: TEKS menang (teks digambar sesudah blur, tidak kena blur).
-7. Blur transisi vs blur latar: TRANSISI menang selama 0,5 dtk overlap (shader blend dua adegan, masing-masing sudah berisi blur latarnya). Di luar overlap, blur latar yang jalan. Tidak ada konflik karena waktunya beda (transisi cuma 0,5 dtk, blur latar sepanjang adegan).
+1. PARALLAX vs DOT: DOT ikut gambar (lapis 1), teks bergerak sendiri (lapis 3). Tidak ada konflik; titik tidak pernah menyentuh teks karena shadow box menutupi.
+2. DOT vs karaoke: TEKS menang (shadow box menutupi titik di area teks). Titik tidak pernah di atas teks.
+3. Gambar vs teks: TEKS menang (shadow box hitam 0.55 di atas gambar di area teks, teks putih di atasnya). Gambar utama tetap tajam di luar kotak.
 
 ## 6. Checklist verifikasi (buat VideoStory + GATE, angka + cara ukur)
 - [ ] DOT: ~3.000 titik kelihatan di still, diameter 2 px (output), opacity 0.04-0.08, tidak ada titik di teks, titik bergerak ikut gambar.
 - [ ] PARALLAX: pan gambar ~20 px per adegan ke arah tabel, zoom 1.3, partikel drift ~30 px berlawanan, teks drift ±15 px sinusoidal kembali 0 di akhir adegan, tidak ada elemen statis (MAD >0 semua zona).
 - [ ] Zoom 1.3 framing/crop: cek per adegan di preview, subjek utama masih di frame di zoom maks (Ka'bah, kafilah, celah gunung, oasis + sungai). Kalau terpotong, laporkan ke VideoStory, jangan ubah nilai 1.3.
-- [ ] BLUR latar: tepi di zona teks ~8 px lebih halus dari tepi di luar zona, tepi di luar zona tetap 1-2 px (tajam), stroke Arab 1-2 px (tajam).
-- [ ] BLUR transisi: D1 + D4 blend blur, D2 warp + motion blur, D3 dip hitam, 0 hard cut di luar transisi.
+- [ ] Transisi: D1 + D4 blend lembut (fade), D2 warp diagonal, D3 dip hitam, 0 hard cut di luar transisi.
 - [ ] Karaoke: kata aktif putih di frame yang benar (peta SUTRADARA §5), tidak telat, tidak salah kata, jeda napas Ayat 4 tidak ada kata aktif.
 - [ ] Shadow box rapi, tidak tutupi pill. Pill ikut fade teks. Tanpa footer di frame mana pun.
 - [ ] Deterministik: stills + render sama (bandingkan still preview vs frame MP4 di waktu yang sama; harus identik).
-- [ ] Render time: catat waktu build + render (perintah Bos). Blur pre-render sekali per adegan (bukan per frame), jadi tambahan waktu render harap di bawah 1 menit dari baseline v2 (2 mnt 11 dtk).
+- [ ] Render time: catat waktu build + render (perintah Bos).
 
 ## 7. README (teks siap tempel, buat Builder 2 masukin ke README template)
 ---
-### Efek visual template: DOT, PARALLAX, BLUR
+### Efek visual template: DOT, PARALLAX
 
-Template ini pakai tiga efek visual yang sama di semua video, supaya semua surah kelihatan satu keluarga:
+Template ini pakai dua efek visual yang sama di semua video, supaya semua surah kelihatan satu keluarga:
 
 **DOT (pola titik).** Grid titik putih halus di atas gambar (diameter 3 px, jarak 24 px, baris ganjil geser 12 px, opacity 6%). Tekstur cetak yang menyatukan gambar-gambar beda gaya. Titik tidak pernah menutupi teks (kotak teks menutupinya).
 
 **PARALLAX (gerak berlapis).** Tiga lapis bergerak beda kecepatan + beda arah: gambar (zoom 30% + pan 20 px), partikel (drift 30 px berlawanan arah gambar), teks (goyang halus 15 px berlawanan arah gambar). Hasilnya ada rasa kedalaman, dan tidak ada elemen yang diam di layar. Arah pan disesuaikan per gambar (ke arah cahaya atau arah gerak subjek).
 
-**BLUR (kaca buram + transisi).** Dua blur yang beda fungsi: (1) blur latar: gambar di belakang kotak teks dihaluskan (radius 8 px, cuma di dalam kotak teks) supaya karaoke gampang dibaca, gambar utama di luar kotak tetap tajam; (2) blur transisi: tiap pindah ayat pakai transisi bernama (blur lembut, warp, atau dip ke hitam, 0,5 detik).
-
-Semua efek deterministik (hasil render selalu sama), tidak menutupi teks karaoke, dan tidak mengaburkan gambar utama. Detail angka lengkap ada di `TEKNIK-DOT-PARALLAX-BLUR.md`.
+Semua efek deterministik (hasil render selalu sama), tidak menutupi teks karaoke, dan tidak mengaburkan gambar utama. Detail angka lengkap ada di `TEKNIK-DOT-PARALLAX.md`.
 ---
 
 ## 8. Catatan implementasi (motlab + Chrome)
-- Canvas 2D, `ctx.filter = 'blur(8px)'` buat pre-render salinan blur (sekali per adegan di load, offscreen canvas). Chrome headless dukung filter blur, deterministik buat input + radius yang sama.
-- Pre-render blur: gambar image ke offscreen canvas 1080x1920, filter blur 8 px, simpan. Per frame: drawImage gambar tajam (transform Ken Burns) + drawImage salinan blur (transform SAMA, clip rect shadow box ikut drift teks) + DOT + partikel + teks.
-- DOT: gambar sesudah salinan blur, sebelum partikel. Pakai transform Ken Burns yang sama kayak gambar (titik ikut zoom + pan).
+- Canvas 2D, gambar tajam di semua zona (tanpa efek kabur di mana pun).
+- DOT: gambar sesudah gambar latar, sebelum partikel. Pakai transform Ken Burns yang sama kayak gambar (titik ikut zoom + pan).
 - Partikel: offset drift parallax ditambahkan ke posisi partikel (bukan ke transform canvas), supaya gerak asli partikel (jatuh, melayang) tetap jalan.
 - Teks: drift sinusoidal ditambahkan ke posisi shadow box + pill + teks (satu offset dx, dy buat ketiganya).
 - Jangan pakai Math.random atau Date.now di scene manapun (aturan motlab). Posisi partikel + DOT dari grid tetap / hash tetap (fungsi hash di gen_scenes.py sudah ada: `hash = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); }`).
 - VT_OFFSET tetap dipakai buat karaoke + timestamp (pelajaran Quraish v2). Drift teks tidak pakai VT_OFFSET.
-- Kalau Builder 2 mau ganti angka (misal radius blur atau amplitudo drift), yang boleh diubah cuma angka di tabel §4, dan harus dicatat di RENDER.md + di-score ulang sama VideoStory. Jangan ubah struktur lapis (urutan gambar) tanpa acc VideoStory.
+- Kalau Builder 2 mau ganti angka (misal amplitudo drift), yang boleh diubah cuma angka di tabel §4, dan harus dicatat di RENDER.md + di-score ulang sama VideoStory. Jangan ubah struktur lapis (urutan gambar) tanpa acc VideoStory.
