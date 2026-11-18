@@ -13,6 +13,13 @@
 - [ ] Timing ayat: timing-ayat.md md5 [MD5]. [DAFTAR RENTANG]. Jeda napas [AYAT] [RENTANG] di tengah ayat.
 - [ ] transcript.json md5 [MD5], [N] segmen, [N] token kata Whisper. Peta karaoke [N] kata dibangun dari token ini (§5 SUTRADARA).
 
+## Cek tanya gambar (jalur A / jalur B, perintah Dewa 2026-11-18)
+- [ ] Langkah tanya JALAN sebelum generate: pilihan user tercatat di SUTRADARA (§17): jalur A atau jalur B (+ tema yang di-input kalau B). Kalau AI yang dipakai user TIDAK BISA generate gambar, langkah tanya boleh dilewati (gambar dari upload user).
+- [ ] Jalur A: tiap gambar sesuai cerita/arti ayatnya (cek per ayat di preview, ikut panduan gambar §1 sampai §4).
+- [ ] Jalur B: SEMUA gambar mengikuti tema yang tercatat di SUTRADARA, BUKAN arti ayat. Cek per gambar di preview: isi gambar ikut tema, gaya konsisten satu video, antislop (subjek jelas, komposisi kuat, tidak generik). Gambar yang ikut arti ayat di jalur B = SALAH, generate ulang.
+- [ ] Jalur B: teks Kemenag, karaoke, dan timing TIDAK berubah ikut tema. Cek: teks Arab + transliterasi + terjemahan tetap verbatim, peta karaoke tetap sama, timing ayat tetap sama.
+- [ ] Satu video cuma satu jalur: tidak ada gambar jalur A tercampur di video jalur B, atau sebaliknya.
+
 ## Cek peta karaoke [N] kata (WAJIB, terverifikasi dari disk)
 - [ ] [N] kata tampil ([PER AYAT]). Tidak ada tumpang tindih, semua durasi positif.
 - [ ] Gabung token Whisper: [DAFTAR GABUNGAN]. Batas gabung bersih (token bersambung tanpa jeda).
@@ -58,7 +65,7 @@
 ## Rencana preview (aturan motion-cut, preview dulu sebelum render penuh)
 - [ ] Builder buat stills + contact sheet, kirim ke sutradara SEBELUM render penuh. Sutradara acc dulu baru render penuh.
 - Waktu stills (waktu video, dtk): [DAFTAR 12 TITIK, ikut SUTRADARA §11].
-- Yang dicek sutradara di preview: kata aktif putih di frame yang benar, shadow box rapi + tidak tutupi pill, Arab [N] baris tidak meluber, terjemahan maksimal 2 baris, tanpa footer di frame mana pun, gambar per ayat benar, Ken Burns + pan jalan, partikel + cahaya ada di tiap adegan, transisi bernama terlihat, batas [AYAT] verifikasi telinga, DOT + framing zoom 1.3.
+- Yang dicek sutradara di preview: kata aktif putih di frame yang benar, shadow box rapi + tidak tutupi pill, Arab [N] baris tidak meluber, terjemahan maksimal 2 baris, tanpa footer di frame mana pun, gambar per ayat benar (jalur A: sesuai cerita ayat; jalur B: sesuai tema yang tercatat), Ken Burns + pan jalan, partikel + cahaya ada di tiap adegan, transisi bernama terlihat, batas [AYAT] verifikasi telinga, DOT + framing zoom 1.3.
 
 ## Blocker: [N]
 - [DAFTAR BLOCKER, atau "0" kalau semua input ada + terverifikasi.]

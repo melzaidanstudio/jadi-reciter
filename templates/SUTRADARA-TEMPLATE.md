@@ -23,6 +23,7 @@
 
 ## 2. Input, semua diverifikasi sutradara dari disk, jangan diubah
 - [JUMLAH] gambar [FOLDER GAMBAR]/ (1152x2048, 9:16, [GAYA], tanpa teks), disalin ke assets/images/ proyek (copy, jangan pindah): [DAFTAR NAMA FILE + UKURAN BYTE + DESKRIPSI PER GAMBAR].
+- TANYA GAMBAR DULU (WAJIB, sebelum generate, lihat §17): kalau AI yang dipakai user BISA generate gambar, tanya user mau jalur A (gambar default sesuai ayat) atau jalur B (gambar ikut satu tema yang di-input user, TIDAK sesuai ayat). Catat pilihan + tema (kalau B) di SUTRADARA ini sebelum generate. Kalau AI-nya TIDAK BISA generate gambar, lewati tanya ini, pakai gambar yang user upload sendiri.
 - Gambar = file biasa di assets/images/. Langkah generate DIPISAH dari build + render: generate di tempat lain atau upload sendiri, taruh filenya di assets/images/, baru build. Kalau gambar satu ayat belum ada saat gen_scenes.py jalan, adegan itu pakai assets/images/default.webp (Ka'bah, generik) + log mencetak PERINGATAN yang menyebut ayatnya, build TETAP JALAN, video tidak kosong. Ini koreksi Bos (ganti aturan berhenti keras sebelumnya); jangan hapus default.webp.
 - Audio [FOLDER]/audio.wav, md5 [MD5], [UKURAN] byte, [DURASI] dtk, [SAMPLE RATE] stereo, [NAMA QARI]. Dipakai UTUH, tanpa potong, tanpa dipercepat, tanpa BGM. Disalin ke audio/ proyek.
 - Teks verbatim Kemenag [FOLDER]/teks-[SURAH].md, md5 [MD5]. Arab + transliterasi + terjemahan. Teks Arab DIAMBIL PROGRAMMATIC dari file ini saat build (script copy, jangan retype, jangan ubah). Transliterasi verbatim termasuk tanda khusus, jangan diedit. Terjemahan versi situs Kemenag saat ini, jangan ganti ke versi lama.
@@ -130,7 +131,7 @@
 - TOTAL menit build + render: (isi, menit)
 - Kalau render diulang karena revisi, catat tiap run (run 1, run 2) + total. Jangan tulis perkiraan, tulis hasil ukur jam nyata.
 
-## 16. ADDENDUM: DOT, PARALLAX (spec VideoStory, md5 e4063775, 141 baris)
+## 16. ADDENDUM: DOT, PARALLAX (spec VideoStory, md5 453c281a, 142 baris)
 - Teknik ini addendum ke SUTRADARA ini, bukan ganti SUTRADARA. Semua angka
   dalam piksel HALAMAN 1080x1920. Output 720x1280 = halaman x 0.6667.
 - Urutan gambar per frame (dari belakang ke depan): (1) gambar tajam + Ken
@@ -174,3 +175,30 @@
   semua zona). Gambar tajam di semua zona, tepi 1-2 px, stroke Arab 1-2 px
   (tajam). Transisi: D1 + D4 blend lembut (fade), D2 warp diagonal, D3 dip
   hitam, 0 hard cut di luar transisi.
+
+## 17. TANYA GAMBAR DULU (jalur A / jalur B, perintah Dewa 2026-11-18)
+- Sebelum generate gambar apa pun, TANYA dulu ke user mau jalur yang mana.
+  Aturan ini WAJIB kalau AI yang dipakai user BISA generate gambar. Kalau
+  AI-nya TIDAK BISA generate gambar, lewati pertanyaan ini, pakai gambar
+  yang user upload sendiri (atau default.webp kalau gambar satu ayat belum
+  ada, build tetap jalan + peringatan di log).
+- Jalur A (default, perilaku lama): tiap gambar ayat di-generate AI
+  mengikuti cerita/arti ayat itu, gaya konsisten, tanpa teks, 1152x2048.
+  Panduan gambar §1 sampai §4 berlaku penuh buat jalur A.
+- Jalur B (tema, TIDAK sesuai ayat): user input satu tema. Semua gambar
+  (satu per ayat + Basmalah kalau ada di audio) di-generate mengikuti tema
+  itu. Gambar TIDAK perlu sesuai arti ayat. Teks Kemenag, karaoke, dan
+  timing TIDAK berubah, cuma gambarnya yang ikut tema. Syarat yang tetap
+  berlaku: generate AI (bukan stok, bukan comot), gaya konsisten satu
+  video, TANPA teks di gambar, ukuran 1152x2048 WebP 9:16, parallax-ready,
+  jangan gambar wajah nabi atau sahabat. Antislop: tiap gambar punya
+  subjek yang jelas + komposisi yang kuat, tidak generik, tetap satu dunia
+  dengan gambar lain di video yang sama.
+- Catat di SUTRADARA ini sebelum generate: jalur yang dipilih user + tema
+  yang di-input (kalau jalur B). GATE verifikasi pilihan ini (GATE §
+  "Cek tanya gambar").
+- Deskripsi gambar per adegan di §7 mengikuti jalur yang dipilih: jalur A
+  deskripsi ikut cerita ayat, jalur B deskripsi ikut tema. Arah pan +
+  jenis partikel per adegan dipilih dari gambar yang sebenarnya (arah
+  sumber cahaya ATAU arah gerak subjek), bukan dari cerita ayat.
+- Satu video cuma pakai satu jalur. Jangan campur A dan B dalam satu video.

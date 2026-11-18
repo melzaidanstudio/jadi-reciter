@@ -12,6 +12,7 @@
 - Template: video murrotal (Qur'an) dari Quraish v2 motlab + motion-cut. Engine motlab, output 720x1280 24fps, halaman 1080x1920, render --scale 0.6667.
 - 5 adegan contoh: Basmalah + Ayat 1-4 (lihat tabel §4). SUTRADARA acuan: SUTRADARA-MURROTAL-QURAISH-V2.md (md5 7ebee301, 152 baris, di RENDER.md v2). Teknik di bawah ini adalah ADDENDUM ke SUTRADARA itu (pasal baru §16), bukan ganti SUTRADARA.
 - Dua teknik: DOT (§1), PARALLAX (§2). Semuanya jalan di motlab + Chrome render, deterministik (tanpa Math.random, tanpa Date.now, cuma fungsi t + hash tetap), tidak nutupin teks karaoke, tidak bikin gambar utama kabur.
+- Isi gambar ikut jalur yang dipilih user (lihat panduan gambar §0): jalur A gambar sesuai cerita ayat, jalur B gambar mengikuti satu tema. Angka DOT/PARALLAX di spec ini TIDAK berubah ikut jalur; arah pan per adegan (§2.3) dipilih dari gambar yang sebenarnya (arah sumber cahaya ATAU arah gerak subjek di gambar itu), bukan dari cerita ayat.
 - Semua angka dalam piksel HALAMAN 1080x1920, kecuali disebut lain. Output 720x1280 = halaman x 0.6667 (angka output = angka halaman x 2/3).
 - Urutan gambar per frame (dari belakang ke depan): (1) gambar tajam + Ken Burns + pan, (2) pola DOT, (3) partikel, (4) shadow box + pill + teks, (5) fade hitam ekor (Ayat 4 saja).
 
@@ -99,7 +100,7 @@
 | Ayat 2 | 10.34 dtk | sama | KIRI, zoom 1.3 | D2 directionalwarp [-1,1] |
 | Ayat 3 | 7.71 dtk | sama | KANAN, zoom 1.3 | D3 fadecolor hitam 0.4 |
 | Ayat 4 | 19.03 dtk | sama | ATAS, zoom 1.3 | D4 fade 0.5 |
-- Partikel per adegan (lapis 2, drift 30 px berlawanan pan): Basmalah rays, Ayat 1 dusk, Ayat 2 snow, Ayat 3 night, Ayat 4 oasis (ikut SUTRADARA §7).
+- Partikel per adegan (lapis 2, drift 30 px berlawanan pan): Basmalah rays, Ayat 1 dusk, Ayat 2 snow, Ayat 3 night, Ayat 4 oasis (ikut SUTRADARA §7). Jalur B: jenis partikel ikut suasana gambar tema, bukan cerita ayat.
 - Teks drift (lapis 3, ±15 px sinusoidal berlawanan pan): semua adegan sama.
 - SUTRADARA yang diterapin: SUTRADARA-MURROTAL-QURAISH-V2.md (motlab + motion-cut). Teknik ini addendum §16 ke SUTRADARA itu. Buat surah lain, SUTRADARA-nya diganti (teks + timing + gambar baru), tapi angka DOT/PARALLAX di spec ini TETAP (cuma arah pan yang disesuaikan per gambar, ikut aturan §2.3 (zoom tetap 1.3 semua adegan)).
 

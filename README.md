@@ -62,6 +62,24 @@ python3 build.py
 #    Cek: karaoke-data.json tertulis, 21 kata, semua assert lolos.
 #    Kalau ganti surah, ganti dulu teks-quraish.md + karaoke-table.md + timing-ayat.md.
 
+# 2A. TANYA GAMBAR dulu (WAJIB, sebelum generate + sebelum langkah 3)
+#    Kalau AI yang kamu pakai BISA generate gambar, tanya ke user mau jalur
+#    yang mana, BARU generate:
+#    A. Gambar default sesuai ayat (perilaku lama: satu gambar AI per cerita
+#       ayat, gaya konsisten, tanpa teks, 1152x2048).
+#    B. Gambar dengan tema tertentu, TIDAK sesuai ayat (user input temanya,
+#       contoh: "kota tua di tepi laut saat fajar"). Semua gambar mengikuti
+#       tema itu, antislop, bagus. Teks Kemenag, karaoke, dan timing TIDAK
+#       berubah, cuma gambarnya yang ikut tema.
+#    Kalau AI yang kamu pakai TIDAK BISA generate gambar, lewati tanya ini,
+#    pakai gambar yang user upload sendiri. Catat pilihan user + temanya
+#    (kalau jalur B) di file SUTRADARA sebelum generate. Panduan lengkap:
+#    jadi-reciter-panduan-gambar.md §0.
+#    Taruh gambar hasil generate di assets/images/ (bismillah.webp,
+#    ayat1.webp, ...). Kalau satu gambar ayat belum ada saat langkah 3
+#    jalan, adegan itu pakai assets/images/default.webp + PERINGATAN di log,
+#    build tetap jalan.
+
 # 3. Generate adegan + project.json (baca karaoke-data.json)
 python3 gen_scenes.py
 #    Cek: 5 file scenes/*.html + project.json tertulis.
@@ -133,7 +151,7 @@ audio recitation (hak cipta qari), MP4 hasil render (dibangun lokal).
 
 Template ini pakai dua efek visual yang sama di semua video, supaya semua
 surah kelihatan satu keluarga. Detail angka lengkap ada di
-`TEKNIK-DOT-PARALLAX.md` (spec VideoStory, md5 e4063775, 141 baris;
+`TEKNIK-DOT-PARALLAX.md` (spec VideoStory, md5 453c281a, 142 baris;
 ringkasnya di `templates/SUTRADARA-TEMPLATE.md` §16).
 
 **DOT (pola titik).** Grid titik putih halus di atas gambar (diameter 3 px,
@@ -154,21 +172,28 @@ adegan di preview, subjek utama harus tetap di frame.
 Semua efek deterministik (hasil render selalu sama), tidak menutupi teks
 karaoke, dan tidak mengaburkan gambar utama.
 
-## Gambar: generate AI sesuai cerita ayat
+## Gambar: generate AI (tanya dulu: jalur A sesuai ayat, atau jalur B ikut tema)
 
-Tiap gambar ayat di-generate AI, mengikuti cerita/arti ayat itu, gaya
-konsisten, tanpa teks, 1152x2048 (9:16). Langkah generate DIPISAH dari build
-+ render: gambar cuma file di `assets/images/`. Kamu generate di tempat
-lain atau upload sendiri, lalu taruh filenya di `assets/images/` dengan
-nama yang dipakai
+SEBELUM generate, tanya dulu ke user (lihat quickstart langkah 2A + panduan
+gambar §0). Kalau AI yang dipakai user BISA generate gambar, user pilih
+satu dari dua jalur: A. gambar default sesuai cerita ayat (perilaku lama),
+atau B. gambar dengan tema tertentu yang di-input user, TIDAK sesuai ayat
+(semua gambar ikut tema, antislop, bagus; teks, karaoke, dan timing tetap
+sama). Kalau AI-nya TIDAK BISA generate gambar, lewati tanya ini, pakai
+gambar yang user upload sendiri.
+
+Tiap gambar ayat di-generate AI, gaya konsisten, tanpa teks, 1152x2048
+(9:16). Langkah generate DIPISAH dari build + render: gambar cuma file di
+`assets/images/`. Kamu generate di tempat lain atau upload sendiri, lalu
+taruh filenya di `assets/images/` dengan nama yang dipakai
 `gen_scenes.py` (bismillah.webp, ayat1.webp, ...). Build + render tidak
 butuh alat generate.
 
 Gaya konsisten contoh Quraish (pakai ini sebagai patokan buat surah lain):
 lukisan sinematik gelap emas, golden cinematic digital painting, tanpa teks,
 tanpa watermark, 9:16, 1152x2048. Panduan lengkap generate gambar (gaya,
-prompt per ayat, checklist) ada di `jadi-reciter-panduan-gambar.md`
-(panduan Desain, md5 968b9135, 226 baris).
+prompt per ayat, checklist, jalur A dan B) ada di
+`jadi-reciter-panduan-gambar.md` (panduan Desain, md5 bf350501, 283 baris).
 
 Panduan prompt per ayat (contoh Quraish, arti + isi gambar):
 
@@ -274,7 +299,8 @@ karaoke-table.md + build.py.
    baru): `teks-quraish.md` (ganti nama kalau mau, ubah juga di build.py),
    `timing-ayat.md`, `transcript.json`, `karaoke-table.md` (tabel §5
    terverifikasi surah baru), gambar di `assets/images/` (satu per ayat +
-   Basmalah kalau ada di audio).
+   Basmalah kalau ada di audio). Gambar: tanya dulu jalur A atau B, lihat
+   quickstart langkah 2A.
 3. Isi `audio/audio.wav` dengan rekaman surah baru (lihat audio/README.md).
 4. Jalankan quickstart langkah 2-6. Catat waktu di RENDER.md +
    BUILD-TIMES.txt (lihat templates/).

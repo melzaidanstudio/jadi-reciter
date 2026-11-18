@@ -9,12 +9,47 @@ File referensi: `~/workspace/murrotal-quraish-v2-motlab/assets/`
 
 ---
 
+## 0. TANYA DULU: JALUR A ATAU B (perintah Dewa 2026-11-18)
+
+Sebelum generate gambar apa pun, TANYA dulu ke user mau jalur yang mana.
+Aturan ini WAJIB kalau AI yang dipakai user BISA generate gambar. Kalau AI
+yang dipakai user TIDAK BISA generate gambar, lewati pertanyaan ini: pakai
+gambar yang user upload sendiri, atau default.webp kalau gambar satu ayat
+belum ada (lihat README, build tetap jalan + peringatan di log).
+
+Dua jalur, pilih satu buat satu video. Jangan campur dalam satu video.
+
+**Jalur A: gambar default sesuai ayat (perilaku lama).** Tiap gambar ayat
+di-generate AI mengikuti cerita/arti ayat itu, gaya konsisten, tanpa teks,
+1152x2048. Aturan §1 sampai §4 di panduan ini berlaku penuh buat jalur A.
+
+**Jalur B: gambar dengan tema tertentu, TIDAK sesuai ayat.** User input
+satu tema (contoh: "kota tua di tepi laut saat fajar", "pegunungan
+bersalju saat fajar"). Semua gambar (satu per ayat + Basmalah kalau ada
+di audio) di-generate mengikuti tema itu. Gambar TIDAK perlu sesuai arti
+ayat. Teks Kemenag, karaoke, dan timing TIDAK berubah, cuma gambarnya
+yang ikut tema.
+
+Syarat jalur B yang tetap berlaku: generate AI (bukan stok, bukan comot),
+gaya konsisten satu video, TANPA teks di gambar, ukuran 1152x2048 WebP
+9:16, parallax-ready, jangan gambar wajah nabi atau sahabat. Yang
+berubah cuma satu: isi gambar ngikutin tema, bukan arti ayat.
+
+Antislop (jalur B): gambar harus bagus dan tidak generik. Jangan pakai
+tampilan klise yang itu-itu saja (latar cantik tanpa subjek, pemandangan
+kosong tanpa cerita). Tiap gambar harus punya subjek yang jelas +
+komposisi yang kuat, dan tetap terasa satu dunia dengan gambar lain di
+video yang sama (satu gaya, satu referensi gaya, satu generator).
+
+Catat pilihan user + temanya (kalau jalur B) di file SUTRADARA sebelum
+generate, supaya GATE bisa verifikasi (lihat templates/GATE-TEMPLATE.md).
+
 ## 1. ATURAN WAJIB
 
 Lima aturan ini tidak boleh dilanggar. Kalau satu dilanggar, gambar ditolak, generate ulang.
 
 1. **Generate AI, bukan stok, bukan comot.** Tiap gambar ayat WAJIB dibuat dengan generator gambar AI dari prompt yang ditulis buat ayat itu. Dilarang pakai foto stok, gambar hasil pencarian, screenshot video orang, atau gambar dari internet. Alasannya: gaya harus seragam satu video, dan gambar harus bercerita sesuai ayat, bukan gambar generik yang kebetulan mirip.
-2. **Isi ngikutin cerita dan arti ayat.** Gambar bukan hiasan. Satu ayat = satu adegan yang menunjukkan apa yang ayat itu ceritakan. Baca dulu terjemahan ayat dari Kemenag (quran.kemenag.go.id), tentukan adegan intinya, baru tulis prompt. Kalau penonton bisu melihat gambarnya saja sudah bisa menebak isi ayatnya, gambar itu benar.
+2. **Isi ngikutin cerita dan arti ayat.** Gambar bukan hiasan. Satu ayat = satu adegan yang menunjukkan apa yang ayat itu ceritakan. Baca dulu terjemahan ayat dari Kemenag (quran.kemenag.go.id), tentukan adegan intinya, baru tulis prompt. Kalau penonton bisu melihat gambarnya saja sudah bisa menebak isi ayatnya, gambar itu benar. Aturan ini berlaku buat jalur A. Jalur B: isi gambar ngikutin tema yang di-input user, bukan arti ayat (lihat §0).
 3. **Gaya konsisten satu video.** Semua gambar dalam satu video pakai gaya yang sama: gaya lukisan sinematik gelap emas (lihat bagian 3). Jangan campur gaya: satu gambar lukisan, satu gambar foto, satu gambar kartun. Penonton harus merasa semua gambar dari dunia yang sama.
 4. **TANPA teks di gambar.** Tidak ada huruf Arab, huruf Latin, angka, papan nama, logo, merek, atau pelat nomor yang terbaca di gambar. Teks Arab tampil sebagai karaoke di atas gambar saat video jalan, jadi gambar harus bersih dari tulisan apa pun. Periksa dengan mata sendiri sesudah generate, jangan percaya prompt saja. Generator sering menyelipkan teks sendiri: logo di jaket, tulisan di boks, pelat nomor karangan, papan toko. Kalau ada yang terbaca, generate ulang.
 5. **Ukuran 1152x2048, format WebP, 9:16.** Semua gambar vertikal 9:16, 1152x2048 piksel, simpan sebagai WebP. Jangan kirim ukuran lain, jangan kirim JPG atau PNG.
@@ -109,7 +144,7 @@ separable layers for parallax motion.
 
 Buka gambarnya, lihat langsung, jawab 5 pertanyaan ini:
 
-1. Apakah isi gambar sesuai arti ayatnya? (Bukan sekadar bagus.)
+1. Apakah isi gambar sesuai arti ayatnya? (Jalur A. Jalur B: apakah isi gambar sesuai tema yang di-input?)
 2. Apakah ada teks, logo, merek, atau pelat nomor yang terbaca? (Periksa jaket, boks, helm, papan, pelat. Kalau ada, generate ulang.)
 3. Apakah gayanya sama dengan gambar lain di video ini?
 4. Apakah ada lapisan depan, tengah, dan belakang yang jelas? (Parallax-ready.)
@@ -124,7 +159,7 @@ Kalau satu jawaban "tidak", gambar belum jadi.
 Langkah ganti 5 gambar Quraish dengan gambar surah baru. Jangan ubah struktur folder, cuma ganti isinya.
 
 1. **Baca surah baru dari Kemenag.** Buka quran.kemenag.go.id, baca teks Arab, transliterasi, dan terjemahan tiap ayat. Catat arti tiap ayat dalam satu kalimat pendek. Jangan percaya ingatan atau transkrip otomatis.
-2. **Tentukan satu adegan per ayat.** Untuk tiap ayat, tulis satu adegan: subjek + apa yang terjadi + di mana + suasana. Kalau dua ayat artinya sama, bedakan adegannya dan buat eskalasi (lihat aturan di bagian 1). Tulis daftar adegan ini dulu sebelum generate apa pun.
+2. **Tentukan satu adegan per ayat.** Untuk tiap ayat, tulis satu adegan: subjek + apa yang terjadi + di mana + suasana. Kalau dua ayat artinya sama, bedakan adegannya dan buat eskalasi (lihat aturan di bagian 1). Tulis daftar adegan ini dulu sebelum generate apa pun. Jalur B: satu gambar per ayat tetap, tapi adegannya diambil dari tema, bukan dari arti ayat (lihat §0).
 3. **Tulis prompt per ayat.** Pakai template di bagian 3. Satu prompt per ayat, satu generate per ayat. Simpan promptnya, supaya kalau perlu generate ulang, hasilnya konsisten.
 4. **Generate dan cek.** Generate tiap gambar, lalu cek dengan 5 pertanyaan di bagian 3. Gambar yang gagal (ada teks, gaya beda, adegan salah) generate ulang, jangan dipaksakan.
 5. **Simpan dengan nama yang sama.** Nama file mengikuti pola template: `bismillah.webp`, `ayat1.webp`, `ayat2.webp`, dan seterusnya sesuai jumlah ayat surah baru. Letakkan di folder `assets/images/`, timpa file Quraish yang lama. Kalau jumlah ayat beda, tambah atau kurangi file sesuai jumlah ayat, dan sesuaikan daftarnya di `gen_scenes.py`.
@@ -144,6 +179,24 @@ Tiap adegan video memakai satu gambar latar, dibuat dengan generator gambar AI
 dari prompt yang ditulis khusus buat ayat itu. Gambar bukan stok dan bukan comot
 dari internet.
 
+### Pilih jalur dulu (tanya ke user sebelum generate)
+
+Kalau AI yang dipakai user BISA generate gambar, TANYA dulu mau jalur yang
+mana. Kalau AI-nya TIDAK BISA generate gambar, lewati pertanyaan ini, pakai
+gambar yang user upload sendiri.
+
+- **Jalur A: gambar default sesuai ayat.** Tiap gambar mengikuti cerita/arti
+  ayat itu (perilaku lama, aturan di bawah berlaku penuh).
+- **Jalur B: gambar dengan tema tertentu, TIDAK sesuai ayat.** User input
+  satu tema, semua gambar mengikuti tema itu. Teks Kemenag, karaoke, dan
+  timing TIDAK berubah, cuma gambarnya yang ikut tema. Gambar harus bagus
+  dan tidak generik (antislop): tiap gambar punya subjek yang jelas +
+  komposisi yang kuat, tetap satu dunia dengan gambar lain di video yang
+  sama.
+
+Catat pilihan user + temanya (kalau jalur B) di file SUTRADARA sebelum
+generate.
+
 ### Aturan wajib
 
 1. **Generate AI.** Tiap gambar ayat dibuat dengan generator gambar AI dari
@@ -152,6 +205,8 @@ dari internet.
 2. **Ngikutin arti ayat.** Satu ayat = satu adegan yang menunjukkan apa yang
    ayat itu ceritakan. Baca dulu terjemahan ayat dari Kemenag
    (quran.kemenag.go.id), tentukan adegan intinya, baru tulis prompt.
+   (Jalur A. Jalur B: isi gambar ngikutin tema yang di-input, bukan arti
+   ayat.)
 3. **Gaya konsisten.** Semua gambar satu video pakai gaya yang sama: lukisan
    sinematik gelap emas. Jangan campur gaya dalam satu video.
 4. **Tanpa teks di gambar.** Tidak ada huruf, angka, logo, merek, atau pelat
@@ -196,7 +251,9 @@ pilih yang suasananya paling dekat dengan adegan baru.
 
 ### Cara ganti surah
 
+0. Tanya user dulu: jalur A atau B (lihat "Pilih jalur dulu" di atas).
 1. Baca surah baru dari Kemenag, catat arti tiap ayat dalam satu kalimat.
+   (Jalur B: catat tema yang di-input, bukan arti ayat.)
 2. Tentukan satu adegan per ayat, tulis dulu daftar adegannya.
 3. Tulis prompt per ayat pakai struktur di atas, generate satu per satu.
 4. Cek tiap gambar: sesuai arti ayat, tanpa teks terbaca, gaya konsisten,
