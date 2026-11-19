@@ -183,6 +183,7 @@
   AI-nya TIDAK BISA generate gambar, lewati pertanyaan ini, pakai gambar
   yang user upload sendiri (atau default.webp kalau gambar satu ayat belum
   ada, build tetap jalan + peringatan di log).
+- STOP KERAS: DILARANG generate gambar apa pun dan DILARANG lanjut ke langkah build sebelum jawaban user TERCATAT di SUTRADARA ini. Kalau belum ada jawaban, BERHENTI di sini.
 - Jalur A (default, perilaku lama): tiap gambar ayat di-generate AI
   mengikuti cerita/arti ayat itu, gaya konsisten, tanpa teks, 1152x2048.
   Panduan gambar §1 sampai §4 berlaku penuh buat jalur A.

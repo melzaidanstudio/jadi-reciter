@@ -73,8 +73,10 @@ python3 build.py
 #       berubah, cuma gambarnya yang ikut tema.
 #    Kalau AI yang kamu pakai TIDAK BISA generate gambar, lewati tanya ini,
 #    pakai gambar yang user upload sendiri. Catat pilihan user + temanya
-#    (kalau jalur B) di file SUTRADARA sebelum generate. Panduan lengkap:
-#    jadi-reciter-panduan-gambar.md §0.
+#    (kalau jalur B) di file SUTRADARA sebelum generate.
+#    STOP KERAS: DILARANG generate gambar apa pun dan DILARANG lanjut ke langkah 3 sebelum jawaban user TERCATAT di SUTRADARA. Kalau belum ada jawaban, BERHENTI di sini, jangan generate, jangan lanjut.
+#    Pelajaran Maryam 2026-11-19: langkah tanya ini pernah kelewat, 7 gambar jadi tanpa tanya Bos.
+#    Panduan lengkap: jadi-reciter-panduan-gambar.md §0.
 #    Taruh gambar hasil generate di assets/images/ (bismillah.webp,
 #    ayat1.webp, ...). Kalau satu gambar ayat belum ada saat langkah 3
 #    jalan, adegan itu pakai assets/images/default.webp + PERINGATAN di log,

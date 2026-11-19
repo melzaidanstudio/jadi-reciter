@@ -15,6 +15,7 @@
 
 ## Cek tanya gambar (jalur A / jalur B, perintah Dewa 2026-11-18)
 - [ ] Langkah tanya JALAN sebelum generate: pilihan user tercatat di SUTRADARA (§17): jalur A atau jalur B (+ tema yang di-input kalau B). Kalau AI yang dipakai user TIDAK BISA generate gambar, langkah tanya boleh dilewati (gambar dari upload user).
+- [ ] Kalau pilihan TIDAK tercatat di SUTRADARA (§17) tapi gambar sudah ada di assets/images/, GATE GAGAL. Tanya dulu ke user, baru generate ulang.
 - [ ] Jalur A: tiap gambar sesuai cerita/arti ayatnya (cek per ayat di preview, ikut panduan gambar §1 sampai §4).
 - [ ] Jalur B: SEMUA gambar mengikuti tema yang tercatat di SUTRADARA, BUKAN arti ayat. Cek per gambar di preview: isi gambar ikut tema, gaya konsisten satu video, antislop (subjek jelas, komposisi kuat, tidak generik). Gambar yang ikut arti ayat di jalur B = SALAH, generate ulang.
 - [ ] Jalur B: teks Kemenag, karaoke, dan timing TIDAK berubah ikut tema. Cek: teks Arab + transliterasi + terjemahan tetap verbatim, peta karaoke tetap sama, timing ayat tetap sama.

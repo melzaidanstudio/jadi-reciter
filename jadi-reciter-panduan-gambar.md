@@ -17,6 +17,8 @@ yang dipakai user TIDAK BISA generate gambar, lewati pertanyaan ini: pakai
 gambar yang user upload sendiri, atau default.webp kalau gambar satu ayat
 belum ada (lihat README, build tetap jalan + peringatan di log).
 
+STOP KERAS: DILARANG generate gambar apa pun sebelum pilihan user TERCATAT di SUTRADARA. Kalau belum ada jawaban, BERHENTI di sini. Pilihan harus tercatat sebelum generate.
+
 Dua jalur, pilih satu buat satu video. Jangan campur dalam satu video.
 
 **Jalur A: gambar default sesuai ayat (perilaku lama).** Tiap gambar ayat
